@@ -6,9 +6,10 @@
 
 <h2>Welcome to MatchFour! Please enter a username: </h2>
 <br />
-<form method="post" style="max-width:600px;" th:object="${user}">
+<form method="post" style="max-width:600px;" th:object="${user}"> <!--add action to correct path-->
     <div class="form-group">
-                <input name="username" th:type="username" th:value="${name}">
+                <label th:for="name">Name</label>
+                <input class="form-control" th:field="${name}" />
                 <span th:errors="*{name}" class="error"></span>
     </div>
 

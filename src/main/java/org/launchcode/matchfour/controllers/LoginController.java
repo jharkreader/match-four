@@ -1,7 +1,7 @@
 package org.launchcode.matchfour.controllers;
 
-import org.launchcode.models.Category;
-import org.launchcode.models.data.CategoryDao;
+import com.sun.xml.internal.bind.v2.TODO;
+import org.launchcode.matchfour.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,19 +26,19 @@ public class LoginController {
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String add(Model model) {
         model.addAttribute("title", "user");
-        model.addAttribute("user", new user());
+        model.addAttribute("user", new User());
 
-        return "category/add";
+        return "";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(@ModelAttribute @Valid User user, Errors errors) {
 
         if (errors.hasErrors()) {
-            return "/category/add";
+            return "";
         }
 
-        categoryDao.save(category);
-        return "redirect:";
+        categoryDao.save(category); //needs to be changed to send username entered to the main html page for the game
+        return "redirect:"; //needs to be changed to main html page for the game
     }
 }
