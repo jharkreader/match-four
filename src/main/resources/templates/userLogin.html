@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+<h2>Welcome to MatchFour! Please enter a username: </h2>
+<br />
+<form method="post" style="max-width:600px;" th:object="${user}">
+    <div class="form-group">
+                <input name="username" th:type="username" th:value="${name}">
+                <span th:errors="*{name}" class="error"></span>
+    </div>
+
+    <input type="submit" value="Let's Play!" />
+</form>
+
+</body>
+</html>
