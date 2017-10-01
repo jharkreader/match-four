@@ -26,4 +26,19 @@ public class CodePeg {
     public void setPegValue(int pegValue) {
         this.pegValue = pegValue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CodePeg)) return false;
+
+        CodePeg codePeg = (CodePeg) o;
+
+        return pegValue == codePeg.pegValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return pegValue;
+    }
 }
