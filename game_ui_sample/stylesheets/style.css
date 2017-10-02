@@ -1,0 +1,347 @@
+/*********************************************************
+ *    1. GENERAL: Color variables & general tag selectors
+ *    2. NAVBAR: not much needed here because the navbar is 99% based on Bootstrap classes - see note below
+ *    3. COLOR PALETTE
+ *    4. GAME BOARD - COLOR SLOTS
+ *    5. GAME BOARD - BLACK/WHITE PEGS & CHECK MARK
+ *    6. MEDIA
+ *    
+ *    Notes on classes:
+ *    'currentTry': remove & assign this class to 'guess' divs to mark active row
+ *         (currently assumes game starts at bottom of screen - could switch to top)
+ *    
+ *    
+ **********************************************************/ 
+
+
+
+/*********************************************************
+ *  1. GENERAL
+ ********************************************************/
+
+/*Use color variables for paint palette*/
+:root {
+  --color0: #d31b1b;
+  --color1: #fa7808;
+  --color2: #ffff3a;
+  --color3: #27be27;
+  --color4: #3333b2;
+  --color5: #be32be;
+}
+
+body,h1,h2,h3,h4,h5,h6 {font-family: "Poppins", sans-serif}
+body {
+  background-color: #42444b!important;
+  /*  could use jpeg background instead of bg-color */
+  background: url("../img/wood3.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body, html {
+    height: 100%;
+    line-height: 1.8;
+    box-sizing:border-box;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+
+
+/*********************************************************
+ *  2. NAVBAR
+ *********************************************************
+ * Note that the navbar section of html file is from bootstrap
+ * template at https://v4-alpha.getbootstrap.com/components/navbar/
+ * All classes in nav section are bootstrap classes.
+ *
+ * 'navbar-collapse' is a bootstrap class, but adding this moves
+ * menu items to right side of bar (also flips order).
+ * It's equiv to right float. (rtl = Right To Left)
+ ********************************************************/
+.navbar-collapse  {
+  direction: rtl;
+}
+
+
+
+
+/*********************************************************
+ *  3. COLOR PALETTE
+ ********************************************************/
+.palette, .board {
+  box-sizing: border-box;
+  display:inline-block; 
+}
+.palette .picker {
+  border-radius: 50%;
+  height: 4em;
+  margin: 12px 0 12px auto;
+  width: 7vh;
+}
+.palette .picker:hover {
+  opacity: .7;
+}
+
+/*Using colors 0 - 5 to fit well with arrays for java*/
+.picker:nth-child(1) {
+  color: var(--color0);
+}
+.picker:nth-child(2) {
+  color: var(--color1);
+}
+.picker:nth-child(3) {
+  color: var(--color2);
+}
+.picker:nth-child(4) {
+  color: var(--color3);
+}
+.picker:nth-child(5) {
+  color: var(--color4);
+}
+.picker:nth-child(6) {
+  color: var(--color5);
+}
+.currentPick {
+  font-size: 140%;
+}
+
+
+/*For custom cursor*/
+.palette .picker, .currentTry .slot {
+  cursor: url("../images/paintbrush.svg"), auto;
+} 
+
+
+
+/*********************************************************
+ *  4. GAME BOARD - COLOR SLOTS
+ ********************************************************/
+.board {
+  overflow-x: auto;  
+  overflow-y: auto;
+  white-space: nowrap;
+  width: 70%; 
+}
+.board .slot, .board .pegs, .board .checkMark {
+  display: inline-block;
+  vertical-align: middle;
+}
+.board .slot, .board .pegs {
+  max-height: 150px;
+  max-width: 150px;
+}
+.board .checkMark, .board .pegs {
+  margin: auto 1vw;
+}
+
+/* 'guess' class represents each of the 8 rows on game board */
+.board .guess {
+  margin: 8px auto;
+  text-align: left;
+}
+.board .slot {
+  border: 1px solid white;  
+  margin: auto;
+}
+.hoverColor_0 .slot:hover {
+  background-color: var(--color0);
+}
+.hoverColor_1 .slot:hover {
+  background-color: var(--color1);
+}
+.hoverColor_2 .slot:hover {
+  background-color: var(--color2);
+}
+.hoverColor_3 .slot:hover {
+  background-color: var(--color3);
+}
+.hoverColor_4 .slot:hover {
+  background-color: var(--color4);
+}
+.hoverColor_5 .slot:hover {
+  background-color: var(--color5);
+}
+.board  .playHere {
+  color:transparent;   /* Make hand pointer icon transparent except for current try */
+  display: inline-block;
+  padding-right: 1vw;
+  vertical-align:middle;
+}
+
+
+/*********************************************************
+ *  5. GAME BOARD - BLACK/WHITE PEGS & CHECK MARK
+ *********************************************************
+ * Note the pegs, hand pointer & check mark will show 
+ * or hide depending on which guess is 'currentTry'
+ ********************************************************/
+.checkMark {
+  color: limegreen;
+}
+.checkMark:hover {
+  color: lime;
+}
+.pegs > div {
+  width: 100%;
+  height: 100%;
+}
+
+/*Styling for each tiny peg*/
+.halfHeight {
+  height: 50%;
+}
+.pegSlot {
+  padding: 2px;
+  width: calc(50% - 2.5px);
+  height:calc(100% - 2.5px);
+  display:inline-block;
+}
+.peg {
+  vertical-align:middle; 
+  background-color: darkgray; 
+  border: 1px solid white;
+  border-radius:50%; 
+  height:100%; 
+  width: 100%;
+}
+
+/* Hide pegs & check marks for each guess row until user plays that row */
+.guess .pegs, .guess .checkMark {
+  visibility: hidden;
+}
+
+
+/* For current guess: */
+.board .currentTry .playHere {
+  color:white;   /* changes from transparent to white so it shows up */
+}
+.board .currentTry .pegs {
+  display: none;  /* hide pegs */
+}
+.board .currentTry .checkMark {
+  display: inline-block;  /* show check mark */
+}
+.board .currentTry .slot {
+  border: 3px solid white;  /* wider border for current guessing row */
+}
+.guess.currentTry .checkMark {
+  visibility:visible;
+}
+
+
+/* For completed guesses: */
+.currentTry ~ .guess .pegs {
+  display: inline-block;   /* show pegs */
+}
+.currentTry ~ .guess .checkMark {
+  display: none;  /* hide check mark */
+}
+.guess.currentTry ~ .guess .pegs {
+  visibility:visible;
+}
+
+
+
+
+
+/*********************************************************
+ *  6. MEDIA
+ ********************************************************/
+
+/*
+ * These screen sizes are based on bootstrap.css version 4
+ * xs < 576px
+ * sm >= 576px
+ * md >= 768px
+ * lg >= 992 px
+ * xl >= 1200px
+ */
+
+
+/*xs screen*/
+@media (min-width: 0px) {
+  body {
+    font-size: 12px;
+  }
+  .palette .picker {
+    max-width: 20px;
+  }
+  .palette {
+    width: 20%; 
+  }
+  .board {
+    width: 80%; 
+  }
+  .board .slot, .board .pegs {
+    width: 4vh;
+    height: 4vh;
+  }
+  .palette, .board {
+    padding: 2vh 1vh;
+  }
+}
+
+/*sm screen*/
+@media (min-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+  .palette .picker {
+    max-width: 100px;
+    max-height: 100px;
+  }
+  .palette {
+    width: 30%; 
+  }
+  .board {
+    width: 70%; 
+  }
+  .board .slot, .board .pegs {
+    width: 8vh;
+    height: 8vh;
+  }
+  .palette, .board {
+    padding: 2vh 3vh;
+  }
+
+}
+
+/*md screen*/
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+  .palette {
+    width: 30%; 
+  }
+  .board {
+    width: 70%; 
+  }
+  .board .slot, .board .pegs {
+    width: 9vh;
+    height: 9vh;
+  }
+  .palette, .board {
+    padding: 5vh 5vh;
+  }
+}
+
+/*lg screen*/
+@media (min-width: 992px) {
+  .palette {
+    width: 32%; 
+  }
+  .board {
+    width: 68%; 
+  }
+
+}
+
+/*xl screen*/
+@media (min-width: 1200px) {
+
+}
+
