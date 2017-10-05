@@ -1,0 +1,177 @@
+[33mcommit b0ead3f1345dfaf607530e472d892587cf6a1fa3[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 5386565 fe59fe1
+Author: ctam91 <ctam91@gmail.com>
+Date:   Wed Oct 4 21:49:49 2017 -0700
+
+    Merge branch 'master' of https://github.com/jharkreader/match-four
+
+[33mcommit 5386565e909bd99bbf2edd523cca265f94bf03eb[m
+Author: ctam91 <ctam91@gmail.com>
+Date:   Wed Oct 4 21:48:23 2017 -0700
+
+    add static folder and refactor directory
+
+[33mcommit fe59fe12454a2dca5e3b4949a4ffc4a663c99be4[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Wed Oct 4 20:43:30 2017 -0700
+
+    daniele and jenn made changes to loginController and userLogin html, redirecting to the play page
+
+[33mcommit d4a9ce02de9e17c55d4dcad86441dbcf18ef1a2a[m
+Merge: 97f9afe 01efb46
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Wed Oct 4 20:42:45 2017 -0700
+
+    Merge branch 'master' of https://github.com/jharkreader/match-four
+
+[33mcommit 97f9afe2a2416326fcf00c642098afe925e3b24f[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Wed Oct 4 20:37:41 2017 -0700
+
+    daniele and jenn made changes to loginController and userLogin html, redirecting to the play page
+
+[33mcommit 01efb46f02062782c042d8de6ed15bd5651f0687[m
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Wed Oct 4 20:01:22 2017 -0700
+
+    game ui
+
+[33mcommit a81bdba1bde46e30bdd42542ee63d7bc4dc1800c[m
+Merge: cbc69ff 753e3ae
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Tue Oct 3 11:04:30 2017 -0700
+
+    Merge branch 'master' of https://github.com/jharkreader/match-four
+
+[33mcommit 753e3aed0ae20105d1c17781268165f7f73a1000[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Mon Oct 2 20:49:40 2017 -0700
+
+    daniele removed extra matchfour directory
+
+[33mcommit cbc69ff788a98edf4c09d8571b323b3595defc82[m
+Merge: 3bdaabd 3b380e9
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Mon Oct 2 20:41:43 2017 -0700
+
+    Merge branch 'master' of https://github.com/jharkreader/match-four
+
+[33mcommit 3b380e9d441304232197a4967f4d32dcc4004c09[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Mon Oct 2 20:27:13 2017 -0700
+
+    Moved <h1> tag out of <header> in templates
+
+[33mcommit 3bdaabd9c924bbaec9e375e3c3b6e6ab4a6f9914[m
+Merge: b11c48d 2442d4a
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Mon Oct 2 20:23:31 2017 -0700
+
+    Merge branch 'master' of https://github.com/jharkreader/match-four
+
+[33mcommit 2442d4a92f0867cc3d31d047087694581ef1af42[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Mon Oct 2 20:22:35 2017 -0700
+
+    Removed duplicate folder structure, moved Tammy's code to relevant folders
+
+[33mcommit 5b18afb0a93ada419862c827c3642bd38f305ecf[m
+Merge: 0be4100 a720fc2
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Mon Oct 2 20:13:46 2017 -0700
+
+    Merge remote-tracking branch 'origin/add_controller'
+
+[33mcommit b11c48d36de62932b6e3d859ab5dfb7ffe193b45[m
+Merge: 8e5920b a720fc2
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Mon Oct 2 20:13:28 2017 -0700
+
+    Merge branch 'add_controller' of https://github.com/jharkreader/match-four
+
+[33mcommit 0be41002be458a8f2bb71d835a9ed41365e88192[m
+Merge: 2e25933 501d8f4
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Mon Oct 2 20:07:12 2017 -0700
+
+    Merge remote-tracking branch 'origin/danieleusersignup'
+
+[33mcommit 2e25933b6ba39e13e6b651e6bba044d392c47c16[m
+Merge: ded8d8f 5c940f7
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Mon Oct 2 20:06:38 2017 -0700
+
+    Merge remote-tracking branch 'origin/JH_class_files'
+
+[33mcommit a720fc25f2e896f3bc294f82b1814921f5aaf647[m[33m ([m[1;31morigin/add_controller[m[33m)[m
+Author: Tammy <ctam91@gmail.com>
+Date:   Mon Oct 2 19:51:02 2017 -0700
+
+    Add Home Controller
+
+[33mcommit 8e5920beda1986f733fa256930c11e24420bdac3[m
+Merge: ded8d8f 501d8f4
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Mon Oct 2 18:57:25 2017 -0700
+
+    Merge branch 'danieleusersignup' of https://github.com/jharkreader/match-four
+
+[33mcommit ded8d8f814f9eaa5076b7874d8c341a7bfef2a6e[m
+Author: Diane Zevenbergen <dianezev@comcast.net>
+Date:   Mon Oct 2 15:30:38 2017 -0700
+
+    ui for gameboard
+
+[33mcommit 5c940f79311047e34b20258ff740499218e5167e[m[33m ([m[1;31morigin/JH_class_files[m[33m)[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Sun Oct 1 18:05:06 2017 -0700
+
+    Game class, stuck and considering refactor of check system from Code class
+
+[33mcommit a10de16c75d9c3838fae8ffb8d182e59e1930c74[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Sun Oct 1 16:50:21 2017 -0700
+
+    Code class with constructors and first checking method
+
+[33mcommit c4558dce71e0ff1217afc5ce25bb573684a5a611[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Sun Oct 1 16:48:17 2017 -0700
+
+    Generated equals and hashcode for CodePeg class
+
+[33mcommit ff84365840402dd98a72f4ad1d58fe40dee9ba91[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Sun Oct 1 16:29:05 2017 -0700
+
+    CodePeg class
+
+[33mcommit 501d8f4597f5d07cc58e241163d08c351a1b25bc[m[33m ([m[1;31morigin/danieleusersignup[m[33m)[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Sun Oct 1 13:16:55 2017 -0700
+
+    daniele's 3rd commit, removed unnecessary import statement for todos from logincontroller
+
+[33mcommit d453698806d1af088ed94d901d049f0dfe42b1e6[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Sun Oct 1 13:15:23 2017 -0700
+
+    daniele's second commit, added models package and user class, and comments on what to change to connect to the main game
+
+[33mcommit acdca3b3beecefe2b4f528654e239bf7f39107b5[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Sun Oct 1 13:14:39 2017 -0700
+
+    daniele's second commit, added models package and user class, and comments on what to change to connect to the main game
+
+[33mcommit 183f2f04477851e7ca4845dccf325e732d94ab8e[m
+Author: mikupgirl <mikupgirl@gmail.com>
+Date:   Sun Oct 1 12:56:25 2017 -0700
+
+    daniele's first commit
+
+[33mcommit f3e5cb97a313aac5a9ea72c9c1a85d227f4738cc[m
+Author: Jennifer Harkreader <jen3072@gmail.com>
+Date:   Thu Sep 28 16:18:09 2017 -0700
+
+    Initial commit
