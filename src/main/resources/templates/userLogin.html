@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container">
-<h1 th:text="${title}">Default Title</h1>
+<h1 align="center" th:text="${title}">Default Title</h1>
 
-<h2>Welcome to MatchFour! Please enter a username: </h2>
+<h2 align="center">Please enter a username: </h2>
 <br />
-<form method="post" style="max-width:600px;" th:object="${user}"> <!--add action to correct path-->
+<form th:align="center" method="post" style="max-width:600px;" th:object="${user}" action="play.html"> <!--add action to correct path-->
     <div class="form-group">
                 <label th:for="name">Name</label>
-                <input class="form-control" th:field="${name}" />
+                <input class="form-control" th:field="${user.name}" />
                 <span th:errors="*{name}" class="error"></span>
     </div>
 
-    <input type="submit" value="Let's Play!" />
+    <input th:align="center" type="submit" value="Let's Play!" />
 </form>
 
 </body>
