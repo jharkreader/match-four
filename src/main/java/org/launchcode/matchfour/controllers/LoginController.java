@@ -14,13 +14,6 @@ import javax.validation.Valid;
 @RequestMapping("userLogin")
 public class LoginController {
 
-//    @RequestMapping(value="userLogin")
-//    public String index(Model model) {
-//
-//        model.addAttribute("title", "users"); //add username here
-//        return "userLogin";
-//    }
-
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String add(Model model) {
         model.addAttribute("title", "Welcome to MatchFour!");
