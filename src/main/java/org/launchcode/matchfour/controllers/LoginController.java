@@ -14,30 +14,30 @@ import javax.validation.Valid;
 @RequestMapping("userLogin")
 public class LoginController {
 
-    @RequestMapping("")
-    public String index(Model model) {
+//    @RequestMapping(value="userLogin")
+//    public String index(Model model) {
+//
+//        model.addAttribute("title", "users"); //add username here
+//        return "userLogin";
+//    }
 
-        model.addAttribute("users", users.findAll()); //replace users with user object
-        model.addAttribute("", "users"); //add username here
-        return "redirect:";
-    }
-
-    @RequestMapping(value = "add", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String add(Model model) {
-        model.addAttribute("title", "user");
+        model.addAttribute("title", "Welcome to MatchFour!");
         model.addAttribute("user", new User());
 
-        return "";
+        return "userLogin";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String add(@ModelAttribute @Valid User user, Errors errors) {
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String add(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            return "";
+            return "userLogin";
         }
 
-        categoryDao.save(category); //needs to be changed to send username entered to the main html page for the game
-        return "redirect:"; //needs to be changed to main html page for the game
+        model.addAttribute("title", "user");
+        model.addAttribute("user", new User());
+        return "redirect::/play"; //main html page for the game
     }
 }
