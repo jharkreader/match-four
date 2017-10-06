@@ -9,6 +9,9 @@
  *    Notes on classes:
  *    'currentTry': remove & assign this class to 'guess' divs to mark active row
  *         (currently assumes game starts at bottom of screen - could switch to top)
+ *    'currentPick': remove & assign this class to 'picker' divs to mark active color
+ *    'hoverColor_1' thru 'hoverColor_6': assign to current guessing row so that the active color shows up on hover
+ *    'bgColor_1' thru 'bgColor_6': use to set background color when user clicks on a slot
  *    
  *    
  **********************************************************/ 
@@ -21,19 +24,19 @@
 
 /*Use color variables for paint palette*/
 :root {
-  --color0: #d31b1b;
-  --color1: #fa7808;
-  --color2: #ffff3a;
-  --color3: #27be27;
-  --color4: #3333b2;
-  --color5: #be32be;
+  --color1: #d31b1b;
+  --color2: #fa7808;
+  --color3: #ffff3a;
+  --color4: #27be27;
+  --color5: #3333b2;
+  --color6: #be32be;
 }
 
 body,h1,h2,h3,h4,h5,h6 {font-family: "Poppins", sans-serif}
 body {
   background-color: #42444b!important;
   /*  could use jpeg background instead of bg-color */
-  background: url("../img/wood3.jpg") no-repeat center center fixed; 
+/*  background: url("../img/wood3.jpg") no-repeat center center fixed; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -87,22 +90,22 @@ body, html {
 
 /*Using colors 0 - 5 to fit well with arrays for java*/
 .picker:nth-child(1) {
-  color: var(--color0);
-}
-.picker:nth-child(2) {
   color: var(--color1);
 }
-.picker:nth-child(3) {
+.picker:nth-child(2) {
   color: var(--color2);
 }
-.picker:nth-child(4) {
+.picker:nth-child(3) {
   color: var(--color3);
 }
-.picker:nth-child(5) {
+.picker:nth-child(4) {
   color: var(--color4);
 }
-.picker:nth-child(6) {
+.picker:nth-child(5) {
   color: var(--color5);
+}
+.picker:nth-child(6) {
+  color: var(--color6);
 }
 .currentPick {
   font-size: 140%;
@@ -146,9 +149,6 @@ body, html {
   border: 1px solid white;  
   margin: auto;
 }
-.hoverColor_0 .slot:hover {
-  background-color: var(--color0);
-}
 .hoverColor_1 .slot:hover {
   background-color: var(--color1);
 }
@@ -163,6 +163,27 @@ body, html {
 }
 .hoverColor_5 .slot:hover {
   background-color: var(--color5);
+}
+.hoverColor_6 .slot:hover {
+  background-color: var(--color6);
+}
+.bgColor_1.slot {
+  background-color: var(--color1);
+}
+.bgColor_2.slot {
+  background-color: var(--color2);
+}
+.bgColor_3.slot {
+  background-color: var(--color3);
+}
+.bgColor_4.slot {
+  background-color: var(--color4);
+}
+.bgColor_5.slot {
+  background-color: var(--color5);
+}
+.bgColor_6.slot {
+  background-color: var(--color6);
 }
 .board  .playHere {
   color:transparent;   /* Make hand pointer icon transparent except for current try */
@@ -206,6 +227,13 @@ body, html {
   border-radius:50%; 
   height:100%; 
   width: 100%;
+}
+
+.peg.blackPeg {
+  background-color: black; 
+}
+.peg.whitePeg {
+  background-color: white; 
 }
 
 /* Hide pegs & check marks for each guess row until user plays that row */
