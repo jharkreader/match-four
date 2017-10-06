@@ -33,7 +33,7 @@
     });    
     
     // Add event listeners for clicks on game slots
-    // TBD: need to find a way to make only the current guess row
+    // TBD: Diane need to find a way to make only the current guess row
     // clickable. Not sure if that means redefining 4 click events
     // every time you move to the next guess row, or if we define
     // all 4x8 slot clicks at beginning and just make code ignore 
@@ -51,7 +51,13 @@
     // TBD
   
     // Add event listener for check answer
-    // TBD
+    var checks = document.getElementById("gameBoard").getElementsByClassName("checkMark");
+
+    // Loop through all slots for guess row #1 and assign click event
+    // Note that counter i is zero based
+    Array.prototype.filter.call(checks, function(el, i){
+      el.addEventListener("click", function(){ checkAnswer(); });
+    });    
   
   /***********************************************************************
    * FUNCTIONS CALLED BY USER EVENTS  (start new game, select color, assign color to a slot, check answer)
@@ -84,6 +90,7 @@
     // (later on it would be good to show the actual solution to user).
       
     // else move on to next guess:
+    resetCurGuess();
     removeHoverColor(guessCtr);
     guessCtr++;
     setCurrentTry();
@@ -233,23 +240,20 @@
     return Math.ceil(ran * 6);
   }
 
+  // Reset guess array to all zero
+  function resetCurGuess() {
+    curGuess = [0, 0, 0, 0];
+  }
   
   // Randomly assign 4 integers to 'secret' array ( 1 = red, etc.)
   // Note: showing 3 JS options here for putting random #s into array...
   function setSecret() {
-//    1) assign random to each element in array
-    secret[0] = getRandom();
-    secret[1] = getRandom();
-    secret[2] = getRandom();
-    secret[3] = getRandom();
     
-// Here are a couple other ways to do the above
-//    or 2) you can use a for loop to fill the array:
-//      for (var i = 0 ; i < 4 ; i++) {
-//        secret[i] = getRandom();
-//      }
+      for (var i = 0 ; i < 4 ; i++) {
+        secret[i] = getRandom();
+      }
 
-//   or 3) you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
+//   or you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
 //      secret = secret.map(el => getRandom());
     
     
