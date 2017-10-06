@@ -14,11 +14,11 @@
 
 (function() {
   
-    guesses = 8;
-    guessCtr = 1;
-    colorPick = 1;
-    secret = [0, 0, 0, 0];
-    curGuess = [0, 0, 0, 0];
+    guesses = 8;    // total # guesses possible
+    guessCtr = 1;   // guess level user is currently on
+    colorPick = 1;  // color user currently has selected
+    secret = [0, 0, 0, 0];  // game solution
+    curGuess = [0, 0, 0, 0];  // user's guess at current guess level
 
   /******************************************************************
    * EVENT LISTENERS
@@ -42,8 +42,9 @@
     var slots = document.getElementById("guess_1").getElementsByClassName("slot");
 
     // Loop through all slots for guess row #1 and assign click event
+    // Note that counter i is zero based
     Array.prototype.filter.call(slots, function(el, i){
-      el.addEventListener("click", function(){ setColorForSlot(i + 1); });
+      el.addEventListener("click", function(){ setColorForSlot(i); });
     });    
 
     // Add event listener for new game
@@ -56,6 +57,9 @@
    * FUNCTIONS CALLED BY USER EVENTS  (start new game, select color, assign color to a slot, check answer)
    **********************************************************************/
   
+  
+  // My notes below are only suggestions - please feel free to revise in any way
+  // that makes sense to you!! - Diane
   
   // Compare user's answer to secret solution, set black/white pegs & move on to next guess
   // TBD...
@@ -73,10 +77,10 @@
     // call method 'setBlackWhitePegs' (pass in #black & #white peg counts) to set background colors for 
     // the 'peg' class within the 'currentTry' section
     
-    // if #black = 4 call method userMsg('You got it!...') to display a message or route to another pg?
+    // if #black = 4 either route to another page or call method userMsg('You got it!...') 
     // (later - if best score, save to user's info in db.)
     
-    // else if guessCtr = 8  call method userMsg('sorry...blah blah') to display a message or route to another pg?
+    // else if guessCtr = 8  either route to another pg or call method userMsg('sorry...blah blah')
     // (later on it would be good to show the actual solution to user).
       
     // else move on to next guess:
@@ -86,30 +90,38 @@
     setHoverColor();
   }
   
-  // Add a color to a slot on gameboard
+  // Add a color to a slot on gameboard (slotNum is 0 - 3)
   function setColorForSlot(slotNum) {
+    
+    // Put the current colorPick value into the selected slot for the current guess row
     curGuess[slotNum] = colorPick;
     
-    setBgColor(slotNum);
+    // TBD: use current value of colorPick to add
+    // first remove any bgColor class on slotNum in guessCtr row (because user might choose a color and then change it...)
+    // then add class 'bgColor_1' or 'bgColor_2', etc to the slotNum user clicked on in guessCtr row
+    // note that you can use 'bgColor_' + colorPick to get the color class you need
+
     
-    alert('TBD:\nSet slot #' + slotNum + ' to color #' + colorPick + '. KEY: \n1=red, \n2=orange, \n3=yellow, \n4=green, \n5=blue, \n6=purple');
+    console.log('setting color #' + colorPick + ' for slot # ' + (slotNum + 1) + ' and curGuess array is:');
+    console.log(curGuess);
   }
   
   //  Change selected color on palette. Adds the 'currentPick' classname to the selected color
   //  and removes it from any other color in the palette
   function setCurrentPicker(i) {
-    var pickers = document.getElementsByClassName('picker');
+    var oldPicker = document.getElementById("colorPalette")
+                            .getElementsByClassName("currentPick");  // generates array that should only have 1 el
+
+    // Remove 'currentPick' class name from previously selected color
+    if (oldPicker.length > 0) {
+      oldPicker[0].classList.remove("currentPick");
+    }
+    
+    // Set var to new color
     colorPick = i;
     
-    // Loop through all pickers and remove 'currentPick' class
-    Array.prototype.filter.call(pickers, function(el){
-      if (el.classList.contains("currentPick")) {
-        el.classList.remove("currentPick");
-      }
-    });
-    
-    // Assign 'currentPick' class to newly selected picker
-    document.getElementById("pick_" + i).classList.add("currentPick");
+    // Add 'currentPick' class to newly selected color
+    document.getElementById("pick_" + colorPick).classList.add("currentPick");
     
     // Call functions to remove old hoverColor & set new hoverColor class for the current guess row
     removeHoverColor(guessCtr);
@@ -143,6 +155,7 @@
   // Clear all the colors from the guess sections of gameboard
   function clearSlotColors() {
     // TBD - remove all 'bgColor_1' thru 'bgColor_6' classes from all slots
+    // should be able to work with ALL slots using id = "gameBoard" and class = "slot"
   }
 
   // Remove ALL hoverColor_ classes from one or more guess rows (for any 'pick' value)
@@ -170,15 +183,9 @@
     //TBD
   }
   
-  // Set the background color of slot user clicked on (using current value of colorPick)
-  function setBgColor(slotNum) {
-    // TBD: use current value of colorPick to add
-    // a class 'bgColor_1' or 'bgColor_2', etc to the slotNum user clicked on in current guess row
-  }
-  
   // Set pegs black and/or white for current guess
   function setBlackWhitePegs(obj) {
-    // TBD (just add class 'blackPeg' and/or 'whitePeg' to the necessary # of pegs)
+    // TBD (add class 'blackPeg' and/or 'whitePeg' to the necessary # of pegs)
   }
       
   //  Adds the 'currentTry' classname to 
