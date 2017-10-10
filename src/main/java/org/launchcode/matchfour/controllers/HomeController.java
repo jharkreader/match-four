@@ -13,7 +13,7 @@ public class HomeController {
     public String index(Model model){
 
         model.addAttribute("title", "Welcome" );
-        return "home";
+        return "game";
     }
 
     @RequestMapping(value = "play")
