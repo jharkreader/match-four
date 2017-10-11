@@ -1,30 +1,19 @@
 <!DOCTYPE html>
-<!--this head for thymeleaf-->
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head">
 
-</head>
-
-<!--this without thymeleaf   -->
-<!--    note bootstrap 4.0.0-beta navbar stuff not working and bootstrap 3.3.7 doesn't have navbar fcn-->
-<!--
 <html>
 <head>
   <title>MatchFour</title>
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
--->
-  
+
 <body id="main">
-  
-<!--This responsive navbar template from https://v4-alpha.getbootstrap.com/components/navbar/ 
+
+<!--This responsive navbar template from https://v4-alpha.getbootstrap.com/components/navbar/
 The built-in Bootstrap classes automatically toggle
 a drop down menu on smaller devices.-->
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -41,34 +30,34 @@ a drop down menu on smaller devices.-->
 </nav>
 
 <!--Bootstrap's 'row' class puts 'palette' div and 'board' div side-by-side-->
-<div class="row">  
-  
-<!--      Color picker section-->  
-<!--  Note classes with 'fa' prefix are all font-awesome icons-->
-  <div class="palette" id="colorPalette"> 
-    <div class="picker" value=1 id="pick_1">
+<div class="row">
+
+  <!--      Color picker section-->
+  <!--  Note classes with 'fa' prefix are all font-awesome icons-->
+  <div class="palette">
+    <div class="picker" value="1" id="pick_1">
       <i class="fa fa-tint fa-4x"></i>
     </div>
-    <div class="picker" value=2 id="pick_2">
+    <div class="picker" value="2" id="pick_2">
       <i class="fa fa-tint fa-4x"></i>
     </div>
-    <div class="picker" value=3 id="pick_3">
+    <div class="picker" value="3" id="pick_3">
       <i class="fa fa-tint fa-4x"></i>
     </div>
-    <div class="picker" value=4 id="pick_4">
+    <div class="picker" value="4" id="pick_4">
       <i class="fa fa-tint fa-4x"></i>
     </div>
-    <div class="picker" value=5 id="pick_5">
+    <div class="picker" value="5" id="pick_5">
       <i class="fa fa-tint fa-4x"></i>
     </div>
-    <div class="picker" value=6 id="pick_6">
+    <div class="picker" value="6" id="pick_6">
       <i class="fa fa-tint fa-4x"></i>
     </div>
   </div>
 
-<!--      Game board section-->
-<!--      TBD: Best to set up template for this to avoid the repetition-->
-  <div class="board" id="gameBoard">  
+  <!--      Game board section-->
+  <!--      TBD: Best to set up template for this to avoid the repetition-->
+  <div class="board">
     <div class="guess" id="guess_8">
       <div class="playHere">
         <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
@@ -76,7 +65,7 @@ a drop down menu on smaller devices.-->
       <div class="slot"></div>
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="slot"></div> 
+      <div class="slot"></div>
       <div class="pegs">
         <div>
           <div class="halfHeight">
@@ -150,7 +139,7 @@ a drop down menu on smaller devices.-->
       <div class="slot"></div>
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="slot"></div>          
+      <div class="slot"></div>
       <div class="pegs">
         <div>
           <div class="halfHeight">
@@ -187,7 +176,7 @@ a drop down menu on smaller devices.-->
       <div class="slot"></div>
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="slot"></div>          
+      <div class="slot"></div>
       <div class="pegs">
         <div>
           <div class="halfHeight">
@@ -261,7 +250,7 @@ a drop down menu on smaller devices.-->
       <div class="slot"></div>
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="slot"></div>          
+      <div class="slot"></div>
       <div class="pegs">
         <div>
           <div class="halfHeight">
@@ -298,7 +287,7 @@ a drop down menu on smaller devices.-->
       <div class="slot"></div>
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="slot"></div>          
+      <div class="slot"></div>
       <div class="pegs">
         <div>
           <div class="halfHeight">
@@ -335,7 +324,7 @@ a drop down menu on smaller devices.-->
       <div class="slot"></div>
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="slot"></div>          
+      <div class="slot"></div>
       <div class="pegs">
         <div>
           <div class="halfHeight">
@@ -370,11 +359,11 @@ a drop down menu on smaller devices.-->
 <!--  note bootstrap 3.3.7 doesn't have navbar and 4.0.0-beta not working for navbar-->
 <!--  also: jquery included here because full bootstrap functionality requires jquery-->
 <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>  
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-<script src="js/script.js"></script>  
+<script src="js/script.js"></script>
 
 </body>
 </html>
