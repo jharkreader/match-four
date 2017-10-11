@@ -19,12 +19,12 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
 (function() {
   
-    var guesses = 8;
-    var guessCtr = 1;
-    var colorPick = 1;
-    var secret = [0, 0, 0, 0];
-    var curGuess = [0, 0, 0, 0];
-    var startTime;
+    var guesses = 8;    // total # guesses possible
+    var guessCtr = 1;   // guess level user is currently on
+    var colorPick = 1;  // color user currently has selected
+    var secret = [0, 0, 0, 0];  // game solution
+    var curGuess = [0, 0, 0, 0];  // user's guess at current guess level
+    var startTime;    
 
   /******************************************************************
    * EVENT LISTENERS
@@ -39,7 +39,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     });    
     
     // Add event listeners for clicks on game slots
-    // TBD: need to find a way to make only the current guess row
+    // TBD: Diane need to find a way to make only the current guess row
     // clickable. Not sure if that means redefining 4 click events
     // every time you move to the next guess row, or if we define
     // all 4x8 slot clicks at beginning and just make code ignore 
@@ -48,20 +48,30 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     var slots = document.getElementById("guess_1").getElementsByClassName("slot");
 
     // Loop through all slots for guess row #1 and assign click event
+    // Note that counter i is zero based
     Array.prototype.filter.call(slots, function(el, i){
-      el.addEventListener("click", function(){ setColorForSlot(i + 1); });
+      el.addEventListener("click", function(){ setColorForSlot(i); });
     });    
 
     // Add event listener for new game
     // TBD
   
     // Add event listener for check answer
-    // TBD
+    var checks = document.getElementById("gameBoard").getElementsByClassName("checkMark");
+
+    // Loop through all checkmarks and assign click event
+    // Note that counter i is zero based
+    Array.prototype.filter.call(checks, function(el, i){
+      el.addEventListener("click", function(){ checkAnswer(); });
+    });    
   
   /***********************************************************************
    * FUNCTIONS CALLED BY USER EVENTS  (start new game, select color, assign color to a slot, check answer)
    **********************************************************************/
   
+  
+  // My notes below are only suggestions - please feel free to revise in any way
+  // that makes sense to you!! - Diane
   
   // Compare user's answer to secret solution, set black/white pegs & move on to next guess
   // TBD...
@@ -72,7 +82,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
     
     // Otherwise:
-    
+        
     // If guessCtr = 1, record start time (millisecs)
     if (guessCtr === 1) {
       startTime = new Date().getTime();
@@ -92,40 +102,49 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       // (later - if best score, save to user's info in db.)
     //}
     
-    // else if guessCtr = 8  call method userMsg('sorry...blah blah') to display a message or route to another pg?
+    // else if guessCtr = 8  either route to another pg or call method userMsg('sorry...blah blah')
     // (later on it would be good to show the actual solution to user).
       
     // else move on to next guess:
+    resetCurGuess();
     removeHoverColor(guessCtr);
     guessCtr++;
     setCurrentTry();
     setHoverColor();
   }
   
-  // Add a color to a slot on gameboard
+  // Add a color to a slot on gameboard (slotNum is 0 - 3)
   function setColorForSlot(slotNum) {
+    
+    // Put the current colorPick value into the selected slot for the current guess row
     curGuess[slotNum] = colorPick;
     
-    setBgColor(slotNum);
+    // TBD: use current value of colorPick to add
+    // first remove any bgColor class on slotNum in guessCtr row (because user might choose a color and then change it...)
+    // then add class 'bgColor_1' or 'bgColor_2', etc to the slotNum user clicked on in guessCtr row
+    // note that you can use 'bgColor_' + colorPick to get the color class you need
+
     
-    alert('TBD:\nSet slot #' + slotNum + ' to color #' + colorPick + '. KEY: \n1=red, \n2=orange, \n3=yellow, \n4=green, \n5=blue, \n6=purple');
+    console.log('setting color #' + colorPick + ' for slot # ' + (slotNum + 1) + ' and curGuess array is:');
+    console.log(curGuess);
   }
   
   //  Change selected color on palette. Adds the 'currentPick' classname to the selected color
   //  and removes it from any other color in the palette
   function setCurrentPicker(i) {
-    var pickers = document.getElementsByClassName('picker');
+    var oldPicker = document.getElementById("colorPalette")
+                            .getElementsByClassName("currentPick");  // generates array that should only have 1 el
+
+    // Remove 'currentPick' class name from previously selected color
+    if (oldPicker.length > 0) {
+      oldPicker[0].classList.remove("currentPick");
+    }
+    
+    // Set var to new color
     colorPick = i;
     
-    // Loop through all pickers and remove 'currentPick' class
-    Array.prototype.filter.call(pickers, function(el){
-      if (el.classList.contains("currentPick")) {
-        el.classList.remove("currentPick");
-      }
-    });
-    
-    // Assign 'currentPick' class to newly selected picker
-    document.getElementById("pick_" + i).classList.add("currentPick");
+    // Add 'currentPick' class to newly selected color
+    document.getElementById("pick_" + colorPick).classList.add("currentPick");
     
     // Call functions to remove old hoverColor & set new hoverColor class for the current guess row
     removeHoverColor(guessCtr);
@@ -144,7 +163,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     guessCtr = 1;
     curGuess = [0, 0, 0, 0];
     startTime = 0;
-    endTime = 0;
     setSecret(); 
     setCurrentTry();
     setCurrentPicker(colorPick);  // really just needed on init
@@ -161,6 +179,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   // Clear all the colors from the guess sections of gameboard
   function clearSlotColors() {
     // TBD - remove all 'bgColor_1' thru 'bgColor_6' classes from all slots
+    // should be able to work with ALL slots using id = "gameBoard" and class = "slot"
   }
 
   // Remove ALL hoverColor_ classes from one or more guess rows (for any 'pick' value)
@@ -188,15 +207,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     //TBD
   }
   
-  // Set the background color of slot user clicked on (using current value of colorPick)
-  function setBgColor(slotNum) {
-    // TBD: use current value of colorPick to add
-    // a class 'bgColor_1' or 'bgColor_2', etc to the slotNum user clicked on in current guess row
-  }
-  
   // Set pegs black and/or white for current guess
   function setBlackWhitePegs(obj) {
-    // TBD (just add class 'blackPeg' and/or 'whitePeg' to the necessary # of pegs)
+    // TBD (add class 'blackPeg' and/or 'whitePeg' to the necessary # of pegs)
   }
       
   //  Adds the 'currentTry' classname to 
@@ -232,32 +245,32 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   
   
   /***** these are related to the game logic, calcs, comparisons, etc.****/
-  
-// Get time for most recent game, compare to user's best time
-// Sets 3 GLOBAL variables for java to use as needed (timeSeconds, myBestTime and timeString)
-// TBD: this could set (or return) a more complete message if that's helpful - like
-// "Nice job! You finished in 3 minutes, 23 seconds." 
-// and/or "Congrats! You got your best time today: 3 minutes, 23 seconds."
-function checkTimeVsBest() {
-  var endTime = new Date().getTime();
-  var mins;
-  var seconds;
 
-  timeSeconds = endTime - startTime;
-  mins = Math.floor(timeSeconds/60);
-  seconds = timeSeconds % 60;
+  // Get time for most recent game, compare to user's best time
+  // Sets 3 GLOBAL variables for java to use as needed (timeSeconds, myBestTime and timeString)
+  // TBD: this could set (or return) a more complete message if that's helpful - like
+  // "Nice job! You finished in 3 minutes, 23 seconds." 
+  // and/or "Congrats! You got your best time today: 3 minutes, 23 seconds."
+  function checkTimeVsBest() {
+    var endTime = new Date().getTime();
+    var mins;
+    var seconds;
 
-  // Compare time to best time & reset if user improved (best is initialized to -1)
-  if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
-    myBestTime = timeSeconds;
+    timeSeconds = endTime - startTime;
+    mins = Math.floor(timeSeconds/60);
+    seconds = timeSeconds % 60;
+
+    // Compare time to best time & reset if user improved (best is initialized to -1)
+    if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
+      myBestTime = timeSeconds;
+    }
+
+    // Create readable string that shows minutes & seconds - for use in a user msg
+    timeString = mins + 
+                (mins === 1 ? " minute, " : " minutes, ") + 
+                seconds + 
+                (seconds === 1 ? " second." : " seconds.");
   }
-
-  // Create readable string that shows minutes & seconds - for use in a user msg
-  timeString = mins + 
-              (mins === 1 ? " minute, " : " minutes, ") + 
-              seconds + 
-              (seconds === 1 ? " second." : " seconds.");
-}
 
   // Compare secret to curGuess and return obj or array with #black & # white
   function compareSlots() {
@@ -270,23 +283,20 @@ function checkTimeVsBest() {
     return Math.ceil(ran * 6);
   }
 
+  // Reset guess array to all zero
+  function resetCurGuess() {
+    curGuess = [0, 0, 0, 0];
+  }
   
   // Randomly assign 4 integers to 'secret' array ( 1 = red, etc.)
   // Note: showing 3 JS options here for putting random #s into array...
   function setSecret() {
-//    1) assign random to each element in array
-    secret[0] = getRandom();
-    secret[1] = getRandom();
-    secret[2] = getRandom();
-    secret[3] = getRandom();
     
-// Here are a couple other ways to do the above
-//    or 2) you can use a for loop to fill the array:
-//      for (var i = 0 ; i < 4 ; i++) {
-//        secret[i] = getRandom();
-//      }
+    for (var i = 0 ; i < 4 ; i++) {
+      secret[i] = getRandom();
+    }
 
-//   or 3) you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
+//   or you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
 //      secret = secret.map(el => getRandom());
     
     
