@@ -256,9 +256,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     var mins;
     var seconds;
 
-    timeSeconds = endTime - startTime;
+    timeSeconds = (endTime - startTime) / 1000;
     mins = Math.floor(timeSeconds/60);
-    seconds = timeSeconds % 60;
+    seconds = Math.round(timeSeconds % 60);
 
     // Compare time to best time & reset if user improved (best is initialized to -1)
     if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
