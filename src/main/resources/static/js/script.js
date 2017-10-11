@@ -12,13 +12,19 @@
 //    (guessCtr would be initialized to 1 & then a fcn
 //    would add 'currentTry' className to the relevant guessing row (& remove from others)
 
+// Global variables - so that Java, etc can access any of these 3 vars...
+var myBestTime = -1;  // keep track of user's best time for current session in seconds
+var timeSeconds = 0;  // user's total seconds for most recent game
+var timeString = "";  // string that shows mins:seconds for most recent game
+
 (function() {
   
-    guesses = 8;    // total # guesses possible
-    guessCtr = 1;   // guess level user is currently on
-    colorPick = 1;  // color user currently has selected
-    secret = [0, 0, 0, 0];  // game solution
-    curGuess = [0, 0, 0, 0];  // user's guess at current guess level
+    var guesses = 8;    // total # guesses possible
+    var guessCtr = 1;   // guess level user is currently on
+    var colorPick = 1;  // color user currently has selected
+    var secret = [0, 0, 0, 0];  // game solution
+    var curGuess = [0, 0, 0, 0];  // user's guess at current guess level
+    var startTime;    
 
   /******************************************************************
    * EVENT LISTENERS
@@ -53,7 +59,7 @@
     // Add event listener for check answer
     var checks = document.getElementById("gameBoard").getElementsByClassName("checkMark");
 
-    // Loop through all slots for guess row #1 and assign click event
+    // Loop through all checkmarks and assign click event
     // Note that counter i is zero based
     Array.prototype.filter.call(checks, function(el, i){
       el.addEventListener("click", function(){ checkAnswer(); });
@@ -76,15 +82,25 @@
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
     
     // Otherwise:
-    
+        
+    // If guessCtr = 1, record start time (millisecs)
+    if (guessCtr === 1) {
+      startTime = new Date().getTime();
+    }
+
     // call method 'compareSlots' to compare elements in 'secret' to 'curGuess' - return object or array with
     // #black and # white pegs
     
     // call method 'setBlackWhitePegs' (pass in #black & #white peg counts) to set background colors for 
     // the 'peg' class within the 'currentTry' section
     
-    // if #black = 4 either route to another page or call method userMsg('You got it!...') 
-    // (later - if best score, save to user's info in db.)
+    // if #black = 4 call method , call fcn to set time variables, give user message, etc. 
+    //if (# black pegs === 4) {
+      // checkTimeVsBest(); // this function sets global variables related to time (myBestTime, timeSeconds, timeString)
+      //
+      // then some user message... to display a message or route to another pg?
+      // (later - if best score, save to user's info in db.)
+    //}
     
     // else if guessCtr = 8  either route to another pg or call method userMsg('sorry...blah blah')
     // (later on it would be good to show the actual solution to user).
@@ -146,6 +162,7 @@
     // Set up new gameboard:
     guessCtr = 1;
     curGuess = [0, 0, 0, 0];
+    startTime = 0;
     setSecret(); 
     setCurrentTry();
     setCurrentPicker(colorPick);  // really just needed on init
@@ -228,7 +245,33 @@
   
   
   /***** these are related to the game logic, calcs, comparisons, etc.****/
-  
+
+  // Get time for most recent game, compare to user's best time
+  // Sets 3 GLOBAL variables for java to use as needed (timeSeconds, myBestTime and timeString)
+  // TBD: this could set (or return) a more complete message if that's helpful - like
+  // "Nice job! You finished in 3 minutes, 23 seconds." 
+  // and/or "Congrats! You got your best time today: 3 minutes, 23 seconds."
+  function checkTimeVsBest() {
+    var endTime = new Date().getTime();
+    var mins;
+    var seconds;
+
+    timeSeconds = endTime - startTime;
+    mins = Math.floor(timeSeconds/60);
+    seconds = timeSeconds % 60;
+
+    // Compare time to best time & reset if user improved (best is initialized to -1)
+    if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
+      myBestTime = timeSeconds;
+    }
+
+    // Create readable string that shows minutes & seconds - for use in a user msg
+    timeString = mins + 
+                (mins === 1 ? " minute, " : " minutes, ") + 
+                seconds + 
+                (seconds === 1 ? " second." : " seconds.");
+  }
+
   // Compare secret to curGuess and return obj or array with #black & # white
   function compareSlots() {
     // TBD
@@ -249,9 +292,9 @@
   // Note: showing 3 JS options here for putting random #s into array...
   function setSecret() {
     
-      for (var i = 0 ; i < 4 ; i++) {
-        secret[i] = getRandom();
-      }
+    for (var i = 0 ; i < 4 ; i++) {
+      secret[i] = getRandom();
+    }
 
 //   or you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
 //      secret = secret.map(el => getRandom());
