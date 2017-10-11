@@ -241,7 +241,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 function checkTimeVsBest() {
   var endTime = new Date().getTime();
   var mins;
-  var seconds:
+  var seconds;
 
   timeSeconds = endTime - startTime;
   mins = Math.floor(timeSeconds/60);
