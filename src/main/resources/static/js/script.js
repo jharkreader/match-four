@@ -39,22 +39,18 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     });    
     
     // Add event listeners for clicks on game slots
-    // TBD: Diane need to find a way to make only the current guess row
-    // clickable. Not sure if that means redefining 4 click events
-    // every time you move to the next guess row, or if we define
-    // all 4x8 slot clicks at beginning and just make code ignore 
-    // clicks on any row that isn't the current row.
-    // Right now this just sets event for row #1
-    var slots = document.getElementById("guess_1").getElementsByClassName("slot");
+    for (var j = 1; j <= 8; j++) {
+      var slots = document.getElementById("guess_" + j).getElementsByClassName("slot");
 
-    // Loop through all slots for guess row #1 and assign click event
-    // Note that counter i is zero based
-    Array.prototype.filter.call(slots, function(el, i){
-      el.addEventListener("click", function(){ setColorForSlot(i); });
-    });    
+      // Loop through all slots for a specific row and assign click event
+      // Note that counter i is zero based
+      Array.prototype.filter.call(slots, function(el, i){
+        el.addEventListener("click", function(){ setColorForSlot(i, el); });
+      });
+    }
 
     // Add event listener for new game
-    // TBD
+     document.getElementById("newGame").addEventListener("click", startGame);
   
     // Add event listener for check answer
     var checks = document.getElementById("gameBoard").getElementsByClassName("checkMark");
@@ -76,10 +72,15 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   // Compare user's answer to secret solution, set black/white pegs & move on to next guess
   // TBD...
   function checkAnswer() {
+    var results = {};
     console.log('about to check answer and user\'s guess is:');
     console.log(curGuess);
 
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
+    if (curGuess.indexOf(0) !== -1) {
+      alert("Oops...you need to choose a color for all four slots before checking your answer.");
+      return;
+    }
     
     // Otherwise:
         
@@ -88,45 +89,64 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       startTime = new Date().getTime();
     }
 
-    // call method 'compareSlots' to compare elements in 'secret' to 'curGuess' - return object or array with
-    // #black and # white pegs
+    // Remove hover color for current guess row
+    removeHoverColor(guessCtr);
     
-    // call method 'setBlackWhitePegs' (pass in #black & #white peg counts) to set background colors for 
+    // Call method 'compareSlots' to compare elements in 'secret' to 'curGuess' - return obj 
+    // named 'results' with
+    // two pieces of info: pass/fail and an array of strings for black and white pegs
+    // Example: return {pass: false, pegArray: [...]}
+    // where pegArray is: if no matches pass in []
+    //            if two black, 0 white pass in ["blackPeg", "blackPeg"] 
+    //            if two black, 1 white pass in ["blackPeg", "blackPeg", "whitePeg"] 
+    //            if 4 white pass in ["whitePeg", "whitePeg", "whitePeg", "whitePeg"] 
+    // if exact match return {pass: true, pegArray: ["blackPeg", "blackPeg","blackPeg", "blackPeg"]}
+    results = compareSlots();
+    
+    // Call method 'setBlackWhitePegs' (pass in results.pegArray from above) to set background colors for 
     // the 'peg' class within the 'currentTry' section
+    setBlackWhitePegs(results.pegArray);
+    // just using this for testing: setBlackWhitePegs(["blackPeg", "blackPeg", "whitePeg"]);
     
-    // if #black = 4 call method , call fcn to set time variables, give user message, etc. 
-    //if (# black pegs === 4) {
+    // TBD If user got correct answer, call methods to get time, give user message, etc. 
+    if (results.pass) {
       // checkTimeVsBest(); // this function sets global variables related to time (myBestTime, timeSeconds, timeString)
       //
       // then some user message... to display a message or route to another pg?
       // (later - if best score, save to user's info in db.)
-    //}
+      alert('TBD...this is where js can send a JSON object to the backend to update the db - something like {"user":"123", "bestTime": 187} and any other info that makes updating the db easy');
+      
+    // TBD else if guessCtr = 8 show message for end of game
+    } else if (guessCtr === 8) {
     
-    // else if guessCtr = 8  either route to another pg or call method userMsg('sorry...blah blah')
-    // (later on it would be good to show the actual solution to user).
+    // either route to another pg or call method userMsg('sorry...blah blah')
+    // would be good to show the actual solution to user if we have time.
       
     // else move on to next guess:
-    resetCurGuess();
-    removeHoverColor(guessCtr);
-    guessCtr++;
-    setCurrentTry();
-    setHoverColor();
+    } else {
+      resetCurGuess();
+      guessCtr++;
+      setCurrentTry();
+      setHoverColor();
+    }
   }
   
   // Add a color to a slot on gameboard (slotNum is 0 - 3)
-  function setColorForSlot(slotNum) {
+  function setColorForSlot(slotNum, slot) {
     
-    // Put the current colorPick value into the selected slot for the current guess row
-    curGuess[slotNum] = colorPick;
-    
-    // TBD: use current value of colorPick to add
-    // first remove any bgColor class on slotNum in guessCtr row (because user might choose a color and then change it...)
-    // then add class 'bgColor_1' or 'bgColor_2', etc to the slotNum user clicked on in guessCtr row
-    // note that you can use 'bgColor_' + colorPick to get the color class you need
+    //Set color IF user's click was on the 'currentTry' guess row (ignore clicks on other guess rows)
+    if (slot.parentElement.classList.contains("currentTry")) {
 
-    
-    console.log('setting color #' + colorPick + ' for slot # ' + (slotNum + 1) + ' and curGuess array is:');
-    console.log(curGuess);
+      // Put the current colorPick value into the selected slot for the current guess row
+      curGuess[slotNum] = colorPick;
+
+      // Call function to remove any bgColor class on the slot
+      // (because user might choose a color and then change it & we don't want multiple bgColor classes on one el...)
+      clearOneSlot(slot);
+
+      // Then add class 'bgColor_1' or 'bgColor_2', etc depending on what the current colorPick value is
+      slot.classList.add("bgColor_" + colorPick);
+    }
   }
   
   //  Change selected color on palette. Adds the 'currentPick' classname to the selected color
@@ -134,6 +154,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function setCurrentPicker(i) {
     var oldPicker = document.getElementById("colorPalette")
                             .getElementsByClassName("currentPick");  // generates array that should only have 1 el
+
 
     // Remove 'currentPick' class name from previously selected color
     if (oldPicker.length > 0) {
@@ -157,7 +178,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     // Clear old gameboard:
     removeHoverColor(1, 8);
     resetPegs();
-    clearSlotColors();
+    clearAllSlots();
     
     // Set up new gameboard:
     guessCtr = 1;
@@ -171,15 +192,35 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   
   /*********************************************************************************
-   * OTHER SUPPORTING FUNCTIONS (called by the main fcns above, to avoid repetition)
+   * OTHER HELPER FUNCTIONS (called by the main fcns above, to avoid repetition)
    ********************************************************************************/  
   
-  /***** these are related to the display, color settings, etc.****/
+  /***** VIEW:  these fcns are related to the DOM view/display, class settings, etc.****/
   
-  // Clear all the colors from the guess sections of gameboard
-  function clearSlotColors() {
-    // TBD - remove all 'bgColor_1' thru 'bgColor_6' classes from all slots
-    // should be able to work with ALL slots using id = "gameBoard" and class = "slot"
+  // Clear one slot in gameboard
+  function clearOneSlot(slot) {
+    
+    // For 'element' remove all 'bgColor_1' thru 'bgColor_6' classes
+    for (var i = 1; i <=6; i++) {
+      slot.classList.remove("bgColor_" + i);
+    }
+  }
+  
+  // Clear the colors from all slots of gameboard (for a new game)
+  function clearAllSlots() {
+    var colorClass;
+    var elementArray = document.getElementById("gameBoard").getElementsByClassName("slot");
+    
+    // For elementArray remove all 'bgColor_1' thru 'bgColor_6' classes
+    // First loop through each color
+    for (var i = 1; i <=6; i++) {
+      colorClass = "bgColor_" + i;
+      
+      // Loop through elementArray, removing colorClass
+      for (var j = 0; j < elementArray.length; j++) {
+        elementArray[j].classList.remove(colorClass);
+      }
+    }
   }
 
   // Remove ALL hoverColor_ classes from one or more guess rows (for any 'pick' value)
@@ -203,13 +244,40 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   }
   
   // Reset pegs to neutral by removing 'blackPeg' and 'whitePeg' classes from all guesses
+  // Also remove title attributes which get applied when user checks their answer
   function resetPegs() {
-    //TBD
+    var pegs = document.getElementById("gameBoard")
+                        .getElementsByClassName("peg");
+    
+    for (var i = 0; i < pegs.length ; i++) {
+
+      // Probably best to first check if it contains the class - otherwise not necessary to remove
+      pegs[i].classList.remove("blackPeg");
+      pegs[i].classList.remove("whitePeg");
+      pegs[i].setAttribute("title", "");
+    }
   }
-  
+
   // Set pegs black and/or white for current guess
-  function setBlackWhitePegs(obj) {
-    // TBD (add class 'blackPeg' and/or 'whitePeg' to the necessary # of pegs)
+  // Pass in array with up to four strings for black/white pegs
+  // Examples: if no matches pass in []
+  //            if two black, 0 white pass in ["blackPeg", "blackPeg"] 
+  //            if two black, 1 white pass in ["blackPeg", "blackPeg", "whitePeg"] 
+  //            if 4 white pass in ["whitePeg", "whitePeg", "whitePeg", "whitePeg"] 
+  function setBlackWhitePegs(pegArray) {
+    var title = "";
+    var pegs = document.getElementsByClassName("currentTry")[0]
+                      .getElementsByClassName("peg");
+    
+    for (var i = 0 ; i < pegArray.length ; i++) {
+      pegs[i].classList.add(pegArray[i]);
+      title = (pegArray[i] === "blackPeg")
+            ? "a color is in the right slot"
+            : ((pegArray[i] === "whitePeg")
+                ? "a color is part of the answer, but in the wrong slot"
+                : "");
+      pegs[i].setAttribute("title", title);
+    }    
   }
       
   //  Adds the 'currentTry' classname to 
@@ -244,7 +312,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   
   
   
-  /***** these are related to the game logic, calcs, comparisons, etc.****/
+  /***** MODEL: these are related to the game logic, calcs, comparisons, etc.****/
 
   // Get time for most recent game, compare to user's best time
   // Sets 3 GLOBAL variables for java to use as needed (timeSeconds, myBestTime and timeString)
@@ -273,8 +341,16 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   }
 
   // Compare secret to curGuess and return obj or array with #black & # white
+  // Note to Jenn - we could just return the pegArray part we discussed
+  // but if you also return pass/fail info it will be a bit easier to
+  // use this result in checkAnswer method
   function compareSlots() {
-    // TBD
+    var isCorrect = false;
+    var pegArray = [];
+    
+    // TBD - 
+    
+    return {pass: isCorrect, pegArray: pegArray};
   }
 
   // Generate a random number between 1 & 6
