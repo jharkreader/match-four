@@ -6,7 +6,6 @@
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
   <link href="https://fonts.googleapis.com/css?family=Poppins:300" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
@@ -23,7 +22,7 @@ a drop down menu on smaller devices.-->
   <a class="navbar-brand" href="#">MatchFour</a>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">New Game</a>
+      <a class="nav-item nav-link active" href="#" id="newGame">New Game</a>
       <a class="nav-item nav-link" href="#">Log in/Sign up</a>
     </div>
   </div>
@@ -358,10 +357,7 @@ a drop down menu on smaller devices.-->
 
 <!--  note bootstrap 3.3.7 doesn't have navbar and 4.0.0-beta not working for navbar-->
 <!--  also: jquery included here because full bootstrap functionality requires jquery-->
-<script
-        src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <script src="js/script.js"></script>
 

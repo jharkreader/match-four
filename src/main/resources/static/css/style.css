@@ -222,7 +222,7 @@ body, html {
 }
 .peg {
   vertical-align:middle; 
-  background-color: darkgray; 
+  background-color: #888787; 
   border: 1px solid white;
   border-radius:50%; 
   height:100%; 
