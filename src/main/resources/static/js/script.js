@@ -347,7 +347,19 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function compareSlots() {
     var isCorrect = false;
     var pegArray = [];
-    
+
+    for (i = 0; i < curGuess.length; i++) {
+      if (curGuess[i] == secret[i]) {
+        pegArray.push("blackPeg");
+      }
+    }
+
+    for (i = 0; i < curGuess.length; i++) {
+      if (secret.includes(curGuess[i]) && (curGuess[i] != secret[i])) {
+        pegArray.push("whitePeg");
+      }
+    }
+
     // TBD - 
     
     return {pass: isCorrect, pegArray: pegArray};
