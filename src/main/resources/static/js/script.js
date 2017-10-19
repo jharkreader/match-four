@@ -24,6 +24,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     var colorPick = 1;  // color user currently has selected
     var secret = [0, 0, 0, 0];  // game solution
     var curGuess = [0, 0, 0, 0];  // user's guess at current guess level
+    var allowDuplicates = false;
     var startTime;    
 
   /******************************************************************
@@ -380,28 +381,28 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   // Note: showing 3 JS options here for putting random #s into array...
 
   function setSecret() {
-    
-    for (var i = 0 ; i < 4 ; i++) {
-      secret[i] = getRandom();
+    var pool = [];
+    var index;
+
+    if (allowDuplicates) {
+        for (var i = 0 ; i < 4 ; i++) {
+          secret[i] = getRandom();
+        }
+    } else {
+        // From Jen, I think this will allow us to generate a code without duplicate colors
+        pool = [1, 2, 3, 4, 5, 6];
+
+        for (var i = 0 ; i < 4 ; i++) {
+          index = Math.floor(Math.random() * pool.length);
+          secret[i] = pool[index];
+          pool.splice(index, 1);
+          }
     }
-
-    // From Jen, I think this will allow us to generate a code without duplicate colors
-    // TODO Diane, please let me know if this looks sound
-/*  function setSecretNoDuplicates() {
-    var pool = [1, 2, 3, 4, 5, 6];
-    var ran = Math.random();
-
-    for (var i = 0 ; i < 4 ; i++) {
-      var index = Math.ceil(ran * pool.length);
-      secret[i] = pool[index];
-      pool.splice(index, 1);
-      }
-  }*/
 
 //   or you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
 //      secret = secret.map(el => getRandom());
     
-    
+
     console.log('just set secret solution to:');
     console.log(secret);
   }    
