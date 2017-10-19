@@ -53,7 +53,7 @@ public class HomeController {
 
 
     @RequestMapping(value = "userLogin", method = RequestMethod.GET)
-    public String add(Model model) {
+    public String addUser(Model model) {
         model.addAttribute("title", "Welcome to MatchFour!");
         model.addAttribute("user", new User());
 
@@ -61,7 +61,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "userLogin", method = RequestMethod.POST)
-    public String add(@ModelAttribute @Valid User user, Errors errors, Model model) {
+    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             return "userLogin";
