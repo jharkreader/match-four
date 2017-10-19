@@ -347,7 +347,19 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function compareSlots() {
     var isCorrect = false;
     var pegArray = [];
-    
+
+    for (i = 0; i < curGuess.length; i++) {
+      if (curGuess[i] == secret[i]) {
+        pegArray.push("blackPeg");
+      }
+    }
+
+    for (i = 0; i < curGuess.length; i++) {
+      if (secret.includes(curGuess[i]) && (curGuess[i] != secret[i])) {
+        pegArray.push("whitePeg");
+      }
+    }
+
     // TBD - 
     
     return {pass: isCorrect, pegArray: pegArray};
@@ -366,11 +378,25 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   
   // Randomly assign 4 integers to 'secret' array ( 1 = red, etc.)
   // Note: showing 3 JS options here for putting random #s into array...
+
   function setSecret() {
     
     for (var i = 0 ; i < 4 ; i++) {
       secret[i] = getRandom();
     }
+
+    // From Jen, I think this will allow us to generate a code without duplicate colors
+    // TODO Diane, please let me know if this looks sound
+/*  function setSecretNoDuplicates() {
+    var pool = [1, 2, 3, 4, 5, 6];
+    var ran = Math.random();
+
+    for (var i = 0 ; i < 4 ; i++) {
+      var index = Math.ceil(ran * pool.length);
+      secret[i] = pool[index];
+      pool.splice(index, 1);
+      }
+  }*/
 
 //   or you can use the Array object's built-in 'map' method (with arrow function which is new in ES6):
 //      secret = secret.map(el => getRandom());
