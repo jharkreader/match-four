@@ -348,20 +348,37 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function compareSlots() {
     var isCorrect = false;
     var pegArray = [];
+    var tempSecret = secret.slice(); // must use slice so that changes to tempSecret don't affect secret
+    var tempGuess = curGuess.slice();
+    var exact = 0;
+    var matchedIndex;
 
-    for (i = 0; i < curGuess.length; i++) {
-      if (curGuess[i] == secret[i]) {
+    for (i = 0; i < tempGuess.length; i++) {
+      if (tempGuess[i] == tempSecret[i]) {
         pegArray.push("blackPeg");
+
+        // Track number of exact matches
+        exact++;
+
+        // Set both to -1 so that neither can be counted twice when looking for white pegs
+        tempGuess[i] = -1;
+        tempSecret[i] = -1;
       }
     }
 
-    for (i = 0; i < curGuess.length; i++) {
-      if (secret.includes(curGuess[i]) && (curGuess[i] != secret[i])) {
+    for (i = 0; i < tempGuess.length; i++) {
+      if (tempSecret.includes(tempGuess[i]) && (tempGuess[i] != -1)) {
         pegArray.push("whitePeg");
+
+        // Find location of matched color and change the secret to -1 so it doesn't get matched more than once
+        matchedIndex = tempSecret.indexOf(tempGuess[i]);
+        tempSecret[matchedIndex] = -1;
       }
     }
 
-    // TBD - 
+    if (exact === 4) {
+      isCorrect = true;
+    }
     
     return {pass: isCorrect, pegArray: pegArray};
   }
