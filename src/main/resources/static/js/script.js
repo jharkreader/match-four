@@ -64,9 +64,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     // Add event listener for new game
      document.getElementById("newGame").addEventListener("click", startGame);
 
-    // Add event listener for changing repeat setting - force new game cuz changing in middle doesn't make sense
-    // TBD better to add to settings option in main menu...
-     document.getElementById("duplicates").getElementsByTagName("input")[0].addEventListener("click", toggleDuplicates);
+//    // Add event listener for changing repeat setting - force new game cuz changing in middle doesn't make sense
+//    // TBD better to add to settings option in main menu...
+//     document.getElementById("duplicates").getElementsByTagName("input")[0].addEventListener("click", toggleDuplicates);
 
     // Add event listener for check answer
     var checks = document.getElementById("gameBoard").getElementsByClassName("checkMark");
