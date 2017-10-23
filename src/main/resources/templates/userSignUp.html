@@ -6,7 +6,7 @@
 
 <h2 align="center">Please enter a username: </h2>
 <br />
-<form th:align="center" method="post" style="max-width:600px;" th:object="${user}" action="play.html"> <!--add action to correct path-->
+<form th:align="center" method="post" style="max-width:600px;" th:object="${user}"> <!--add action to correct path-->
     <div style="text-align:center" class="form-group">
         <label th:for="name">Name</label>
         <input class="form-control" th:field="${user.name}" />
