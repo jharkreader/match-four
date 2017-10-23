@@ -16,39 +16,52 @@ import javax.validation.Valid;
 
 public class HomeController {
 
-    @RequestMapping(value = "")
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model){
 
+        model.addAttribute("user", new User());
         model.addAttribute("title", "Welcome" );
-        return "game";
+        return "userLogin";
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String index(@ModelAttribute @Valid User user, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            return "userLogin";
+        }
+
+        model.addAttribute("user", new User());
+        return "redirect:/play";
+    }
+
+
+    @RequestMapping(value = "signup", method = RequestMethod.GET)
+    public String add(Model model) {
+        model.addAttribute("title", "Sign up!");
+        model.addAttribute("user", new User());
+
+        return "userSignUp";
+    }
+
+    @RequestMapping(value = "signup", method = RequestMethod.POST)
+    public String add(@ModelAttribute @Valid User user, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            return "userSignUp";
+        }
+
+        model.addAttribute("user", new User());
+        return "redirect"; //back to log in page
     }
 
     @RequestMapping(value = "play")
     public String play(Model model){
 
         model.addAttribute("title", "Let's Play!" );
-        return "play";
+        return "game";
     }
 
-
-    @RequestMapping(value = "userLogin", method = RequestMethod.GET)
-    public String add(Model model) {
-        model.addAttribute("title", "Welcome to MatchFour!");
-        model.addAttribute("user", new User());
-
-        return "userLogin";
-    }
-
-    @RequestMapping(value = "userLogin", method = RequestMethod.POST)
-    public String add(@ModelAttribute @Valid User user, Errors errors, Model model) {
-
-        if (errors.hasErrors()) {
-            return "userLogin";
-        }
-
-        model.addAttribute("title", "user");
-        model.addAttribute("user", new User());
-        return "redirect::/play"; //main html page for the game
-    }
 
 }
