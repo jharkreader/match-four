@@ -1,5 +1,7 @@
 package org.launchcode.matchfour.controllers;
 
+import org.launchcode.matchfour.models.data.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,8 @@ import javax.validation.Valid;
 
 public class HomeController {
 
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model){
@@ -32,7 +36,7 @@ public class HomeController {
             return "userLogin";
         }
 
-        model.addAttribute("user", new User());
+        model.addAttribute("username", user.getName());
         return "redirect:/play";
     }
 
@@ -52,7 +56,8 @@ public class HomeController {
             return "userSignUp";
         }
 
-        model.addAttribute("user", new User());
+        userDao.save(user);
+        model.addAttribute("username", user.getName());
         return "redirect"; //back to log in page
     }
 

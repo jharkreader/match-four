@@ -4,8 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue
+    private int id;
 
     @NotNull
     @Size(min=3, max=15,  message = "Please enter a username with at least 3 characters")
@@ -36,5 +40,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getId() {
+        return id;
+    }
+
 }
 
