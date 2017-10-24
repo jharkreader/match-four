@@ -82,7 +82,16 @@ body, html {
   border-radius: 50%;
   height: 4em;
   margin: 12px 0 12px auto;
-  width: 7vh;
+  text-align:center;
+  width: 12vh;
+}
+.palette .dupl {
+  font-size: 80%;
+  height: 4em;
+  margin: 20px 0 12px auto;
+  width: 12vh;
+  line-height: 1;
+  text-align: center;
 }
 .palette .picker:hover {
   opacity: .7;
@@ -309,7 +318,7 @@ body, html {
   body {
     font-size: 12px;
   }
-  .palette .picker {
+  .palette .picker, .palette .dupl {
     max-width: 20px;
   }
   .palette {
@@ -332,7 +341,7 @@ body, html {
   body {
     font-size: 14px;
   }
-  .palette .picker {
+  .palette .picker, .palette .dupl {
     max-width: 100px;
     max-height: 100px;
   }
