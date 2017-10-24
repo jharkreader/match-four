@@ -2,18 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container">
-<h1 align="center" th:text="${title}">Default Title</h1>
+<h1 align="center" th:text="${title}">Welcome to MatchFour!</h1>
 
-<h2 align="center">Please enter a username: </h2>
+<h2 align="center">How to Play:</h2>
+
+<ol>
+    <li>Click to select a color</li>
+    <li>Click on a box within the first row (your currently selected color will show before you make your guess)</li>
+    <li>Fill in all four boxes with your guesses, then click the green check mark to confirm your guess</li>
+    <li>4 circles will display next to your confirmed guess. Black = Correct slot and color, White = Correct Color, Wrong Slot</li>
+</ol>
+<br />
+<h2 align="center">Please enter your username and password: </h2>
 <br />
 <form th:align="center" method="post" style="max-width:600px;" th:object="${user}"> <!--add action to correct path-->
     <div style="text-align:center" class="form-group">
-                <label th:for="name">Name</label>
+                <label th:for="name">Username</label>
                 <input class="form-control" th:field="${user.name}" />
                 <span th:errors="*{name}" class="error"></span>
     </div>
 
+    <div style="text-align:center" class="form-group">
+        <label th:for="Password">Password</label>
+        <input class="form-control" th:field="${user.password}" />
+        <span th:errors="*{password}" class="error"></span>
+    </div>
+
     <input th:align="center" type="submit" value="Let's Play!" />
+    <br />
+    <p>Don't have a username? <a href="userSignUp.html">Sign Up!</a> </p>
 </form>
 
 </body>
