@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 public class User {
 
     @NotNull
-    @Size(min=3, max=15)
+    @Size(min=3, max=15,  message = "Please enter a username with at least 3 characters")
     private String name;
 
     public User(String name) {
@@ -16,7 +16,7 @@ public class User {
     }
 
     @NotNull
-    @Size(min=3, max=8)
+    @Size(min=8, max=8,  message = "Please enter a password with at least 8 characters")
     private String password;
 
     public User() {}
