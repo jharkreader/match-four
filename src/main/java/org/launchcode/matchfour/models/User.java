@@ -15,6 +15,10 @@ public class User {
         this.name = name;
     }
 
+    @NotNull
+    @Size(min=3, max=8)
+    private String password;
+
     public User() {}
 
     public String getName() {
@@ -23,6 +27,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 

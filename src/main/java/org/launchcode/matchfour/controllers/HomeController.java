@@ -21,7 +21,7 @@ public class HomeController {
     public String index(Model model){
 
         model.addAttribute("user", new User());
-        model.addAttribute("title", "Welcome" );
+        model.addAttribute("title", "Welcome to MatchFour!" );
         return "userLogin";
     }
 
@@ -37,7 +37,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = "signup", method = RequestMethod.GET)
+    @RequestMapping(value = "signUp", method = RequestMethod.GET)
     public String add(Model model) {
         model.addAttribute("title", "Sign up!");
         model.addAttribute("user", new User());
@@ -45,7 +45,7 @@ public class HomeController {
         return "userSignUp";
     }
 
-    @RequestMapping(value = "signup", method = RequestMethod.POST)
+    @RequestMapping(value = "signUp", method = RequestMethod.POST)
     public String add(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
