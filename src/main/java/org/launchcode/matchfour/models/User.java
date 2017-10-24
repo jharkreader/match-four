@@ -16,7 +16,7 @@ public class User {
     }
 
     @NotNull
-    @Size(min=8, max=8,  message = "Please enter a password with at least 8 characters")
+    @Size(min=8,  message = "Please enter a password with at least 8 characters")
     private String password;
 
     public User() {}

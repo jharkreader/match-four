@@ -14,7 +14,7 @@
     </div>
     <div style="text-align:center" class="form-group">
         <label th:for="Password">Password</label>
-        <input class="form-control" th:field="${user.password}" />
+        <input class="form-control" type="password" th:field="${user.password}" />
         <span th:errors="*{password}" class="error"></span>
     </div>
 
