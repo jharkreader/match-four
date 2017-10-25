@@ -82,15 +82,10 @@ var timeString = "";  // string that shows mins:seconds for most recent game
    **********************************************************************/
 
 
-  // My notes below are only suggestions - please feel free to revise in any way
-  // that makes sense to you!! - Diane
-
   // Compare user's answer to secret solution, set black/white pegs & move on to next guess
-  // TBD...
   function checkAnswer() {
     var results = {};
     var endTime;
-    var userMsg;
     console.log('about to check answer and user\'s guess is:');
     console.log(curGuess);
 
@@ -122,23 +117,29 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     setBlackWhitePegs(results.pegArray);
     removeClassFromGuess("currentTry");
 
-    // If user got correct answer or finished all guess, get user msg
-    // Also set guessCtr which affects whether pegs are shown or not, etc.
+    // If game is over, show results
     if ((results.pass) || (guessCtr === 8)) {
       setGameOverRow();
-      userMsg = (results.pass) ? getSuccessMsg() : getErrorMsg(results.pegArray.length);
+
+      // Otherwise show user their time info for correct answer
+      if (results.pass) {
+
+        showTimeInfo();
+
+      // Otherwise if user did not get correct answer, set the correct colors in 4 slots at top & display
+      } else {
+
+        showSolution(results.pegArray.length);
+      }
+
+      //Also set guessCtr which affects whether pegs are shown or not, etc.
       guessCtr = 0;
+
     } else {
       guessCtr++;
       resetCurGuess();
       setCurrentTry();
       setHoverColor();
-    }
-
-
-    // If correct answer or done with guesses, give user msg (TBD - improve ui & show colors)
-    if (guessCtr === 0 ) {
-      alert(userMsg);
     }
   }
 
@@ -198,6 +199,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     setSecret();
     removeClassFromGuess("currentTry");
     removeClassFromGuess("gameOver");
+    removeSolution();
     setCurrentTry();
     setCurrentPicker(colorPick);  // really just needed on init
     setHoverColor();
@@ -246,6 +248,21 @@ var timeString = "";  // string that shows mins:seconds for most recent game
         el.classList.remove(className);
       }
     });
+  }
+
+  //  Removes classname from 'correctAnswer'  & 'youGotIt' rows so they're hidden
+  function removeSolution() {
+    var answer= document.getElementById("correctAnswer");
+    var youGotIt = document.getElementById("youGotIt");
+
+    if (answer.classList.contains("showSolution")) {
+      answer.classList.remove("showSolution");
+    }
+
+    if (youGotIt.classList.contains("showSolution")) {
+      youGotIt.classList.remove("showSolution");
+    }
+
   }
 
   // Remove ALL hoverColor_ classes from one or more guess rows (for any 'pick' value)
@@ -335,11 +352,62 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     }
   }
 
-  // Display a message (or instead of this, routing to another page...)
-  function userMsg(message) {
-    // TBD
+  //  Set info needed & show final answer
+  function showSolution(n) {
+    var answer = document.getElementById("correctAnswer");
+    var slots = answer.getElementsByClassName("slot");
+    var userMsg = getErrorMsg(n);
+    var para;
+    var content;
+    var msgDiv = document.getElementById("userMsg");
+    var child = msgDiv.getElementsByTagName("p");
+
+    // Assign solution colors
+    for (var i = 0; i < secret.length ; i++) {
+      slots[i].classList.add("bgColor_" + secret[i]);
+    }
+
+    // Remove any existing <p> and attach new <p> el to userMsg div
+    if (child.length > 0) {
+      msgDiv.removeChild(child[0]);
+    }
+
+    // Create & attach a <p> element with user msg
+    para = document.createElement("p");
+    content = document.createTextNode(userMsg);
+    para.appendChild(content);
+    msgDiv.appendChild(para);
+
+
+    // Assign 'showSolution' class to solution row
+    answer.classList.add("showSolution");
   }
 
+    //  Set & show time info for correct answer
+  function showTimeInfo() {
+    var youGotIt = document.getElementById("youGotIt");
+    var userMsg = getSuccessMsg();  // Returns array for 4 line message
+    var para;
+    var content;
+    var msgDiv = document.getElementById("userTime");
+    var child = msgDiv.getElementsByTagName("p");
+
+    // Remove any existing <p> and attach new <p> el to userMsg div
+    for (var i = (child.length - 1); i >=0; i--) {
+      msgDiv.removeChild(child[i]);
+    }
+
+    // Create & attach a <p> element with user msg
+    for (var i = 0; i < userMsg.length; i++) {
+      para = document.createElement("p");
+      content = document.createTextNode(userMsg[i]);
+      para.appendChild(content);
+      msgDiv.appendChild(para);
+    }
+
+    // Assign 'showSolution' class to user's time message
+    youGotIt.classList.add("showSolution");
+  }
 
 
   /***** MODEL: these are related to the game logic, calcs, comparisons, etc.****/
@@ -388,22 +456,15 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   }
 
   function getErrorMsg(n) {
-    var endTime = new Date().getTime();
     var userMsg = '';
-    var solutionKey = ['RED', 'ORANGE', 'YELLOW', 'GREEN', 'BLUE', 'PURPLE'];
 
     // Give different error messages, depending on how many pegs matched
     if (n > 3) {
-      userMsg += "You had ALL the right colors,\njust not quite in the right slots!\n\nThe correct answer is:\n";
+      userMsg += "YOU WERE SO CLOSE!";
     } else if (n > 2) {
-      userMsg += "You almost got the right answer!\n\nThe correct answer is:\n";
+      userMsg += "Almost!";
     } else {
-      userMsg += "Keep practicing! \n\nThe correct answer is:\n";
-    }
-
-    // TBD would be best to add ui that shows color pegs for solution instead of using text here...
-    for (var i = 0; i < secret.length ; i++) {
-      userMsg += solutionKey[secret[i] - 1] + ' ';
+      userMsg += "";
     }
 
     return userMsg;
@@ -419,20 +480,22 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   // Sets 3 GLOBAL variables (maybe for java to use later - timeSeconds, myBestTime and timeString)
   function getSuccessMsg() {
     var endTime = new Date().getTime();
-    var userMsg = "Correct!\n";
+    var userMsg = [];
+    userMsg[0] = "YES!";
 
     timeSeconds = (endTime - startTime) / 1000;
     mins = Math.floor(timeSeconds/60);
     seconds = Math.round(timeSeconds % 60);
 
-    userMsg += 'You got it in ' + guessCtr + ' guesses\n with a time of ' + timeString(timeSeconds) + '!\n\n';
+    userMsg[1] = 'You got it in ' + guessCtr + ' guesses';
+    userMsg[2] = 'with a time of ' + timeString(timeSeconds) + '!';
 
     // Compare time to best time & reset if user improved (best is initialized to -1)
     if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
       myBestTime = timeSeconds;
-      userMsg += 'That\'s your best time today!';
+      userMsg[3] = 'THAT\'S YOUR BEST TIME TODAY!';
     } else {
-      userMsg += 'Your best time so far today is: ' + timeString(myBestTime) + '.';
+      userMsg[3] = 'Best time today: ' + timeString(myBestTime) + '.';
     }
 
     return userMsg;
@@ -441,16 +504,17 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     function timeString(n) {
       var mins;
       var seconds;
+      var timeMsg;
 
       mins = Math.floor(n/60);
       seconds = Math.round(n % 60);
 
-      timeString = mins +
+      timeMsg = mins +
                   (mins === 1 ? " minute, " : " minutes, ") +
                   seconds +
-                  (seconds === 1 ? " second." : " seconds.");
+                  (seconds === 1 ? " second." : " seconds");
 
-      return timeString;
+      return timeMsg;
     }
   }
 
@@ -460,8 +524,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   }
 
   // Randomly assign 4 integers to 'secret' array ( 1 = red, etc.)
-  // Note: showing 3 JS options here for putting random #s into array...
-
   function setSecret() {
     var pool = [];
     var index;

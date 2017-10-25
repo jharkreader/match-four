@@ -146,15 +146,20 @@ body {
   white-space: nowrap;
   width: 70%;
 }
-.board .slot, .board .pegs, .board .checkMark {
+.board .guess:first-child .slot {
+  vertical-align:middle;
+  border-radius:50%;
+  border-width: 2px;
+}
+.board .slot, .board .pegs, .board .checkMark, .board .nextGame {
   display: inline-block;
   vertical-align: middle;
 }
-.board .slot, .board .pegs {
+.board .slot, .board .pegs, .board .nextGame {
   max-height: 150px;
   max-width: 150px;
 }
-.board .checkMark, .board .pegs {
+.board .checkMark, .board .pegs, .board .nextGame {
   margin: auto 1vw;
 }
 
@@ -203,7 +208,7 @@ body {
 .bgColor_6.slot {
   background-color: var(--color6);
 }
-.board  .playHere {
+.board .playHere {
   color:transparent;   /* Make hand pointer icon transparent except for current try */
   display: inline-block;
   padding-right: 1vw;
@@ -262,15 +267,15 @@ body {
 }
 
 
-/* For current guess: */
+/* For current guess and final solution: */
 .board .currentTry .playHere {
   color:white;   /* changes from transparent to white so it shows up */
 }
-.board .currentTry .pegs {
-  display: none;  /* hide pegs */
+.board .currentTry .pegs, .board .guess:first-child, .board .guess:nth-child(2) {
+  display: none;  /* hide pegs & hide solution */
 }
-.board .currentTry .checkMark {
-  display: inline-block;  /* show check mark */
+.board .currentTry .checkMark, .board .guess:first-child.showSolution, .board .guess:nth-child(2).showSolution {
+  display: inline-block;  /* show check mark & show solution*/
 }
 .board .currentTry .slot {
   border: 3px solid white;  /* wider border for current guessing row */
@@ -278,7 +283,19 @@ body {
 .guess.currentTry .checkMark {
   visibility:visible;
 }
-
+.board .showSolution p {
+  color: white;
+  text-align:center;
+  line-height:1.4;
+  margin-bottom: 0;
+}
+.showSolution {
+  display: inline-block;
+}
+.showSolution .playHere i {
+  color: white;
+  padding-right: 2vh;
+}
 
 /* For completed guesses: */
 .currentTry ~ .guess .pegs, .gameOver ~ .guess .pegs, .gameOver .pegs {
@@ -336,6 +353,17 @@ body {
   .palette, .board {
     padding: 2vh 1vh;
   }
+/*  .board .guess:nth-child(2) p {*/
+  .board .showSolution p {
+    width:22vh;
+    font-size: 80%;
+  }
+  .peg.blackPeg {
+    border: 1px solid limegreen;
+  }
+  .peg.whitePeg {
+    border: 1px solid orange;
+  }
 }
 
 /*sm screen*/
@@ -360,7 +388,17 @@ body {
   .palette, .board {
     padding: 2vh 3vh;
   }
-
+/*  .board .guess:nth-child(2) p {*/
+  .board .showSolution p {
+    width:36vh;
+    font-size: 120%;
+  }
+  .peg.blackPeg {
+    border: 2px solid limegreen;
+  }
+  .peg.whitePeg {
+    border: 2px solid orange;
+  }
 }
 
 /*md screen*/
@@ -381,6 +419,11 @@ body {
   .palette, .board {
     padding: 5vh 5vh;
   }
+/*  .board .guess:nth-child(2) p {*/
+  .board .showSolution p {
+    width:46vh;
+  }
+
 }
 
 /*lg screen*/
