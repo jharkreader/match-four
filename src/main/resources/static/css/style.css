@@ -76,6 +76,10 @@ body {
 /*********************************************************
  *  3. COLOR PALETTE
  ********************************************************/
+/* text shadow for most of the font awesome icons */
+.palette .picker, .checkMark, .nextGame {
+  text-shadow: 2px 2px 2px #262626;
+}
 .palette, .board {
   box-sizing: border-box;
   display:inline-block;
