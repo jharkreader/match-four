@@ -71,7 +71,7 @@ public class HomeController {
         }
 
         model.addAttribute("username", user.getName());
-        return "redirect";
+        return "redirect:";
     }
 
 
@@ -112,7 +112,7 @@ public class HomeController {
 
         userDao.save(user);
         model.addAttribute("username", user.getName());
-        return "redirect";
+        return "redirect:";
     }
 
     @RequestMapping(value = "")
