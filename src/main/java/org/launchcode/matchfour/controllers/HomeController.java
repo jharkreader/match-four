@@ -90,6 +90,26 @@ public class HomeController {
             return "userSignUp";
         }
 
+        ArrayList<User> userList = new ArrayList<>();
+
+        for (User eachUser : userDao.findAll()) {
+            userList.add(eachUser);
+        }
+
+        boolean userExists = false;
+
+        for (User eachUser : userList) {
+            if (user.getName().equals(eachUser.getName())) {
+                userExists = true;
+            }
+        }
+
+        //TODO Also needs error display span
+        if (userExists) {
+            model.addAttribute("userError", "User name exists. Please select another.");
+            return "userSignUp";
+        }
+
         userDao.save(user);
         model.addAttribute("username", user.getName());
         return "redirect";
