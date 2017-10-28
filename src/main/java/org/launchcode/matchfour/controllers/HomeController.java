@@ -1,9 +1,11 @@
 package org.launchcode.matchfour.controllers;
 
+import org.launchcode.matchfour.models.HostingForm;
 import org.launchcode.matchfour.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.launchcode.matchfour.models.User;
@@ -68,5 +70,10 @@ public class HomeController {
         return "game";
     }
 
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
+    public String updateHosting(@RequestBody HostingForm hostingForm) {
+
+        return "game";
+    }
 
 }

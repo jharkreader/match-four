@@ -17,6 +17,7 @@ var myBestTime = -1;  // keep track of user's best time for current session in s
 var timeSeconds = 0;  // user's total seconds for most recent game
 var timeString = "";  // string that shows mins:seconds for most recent game
 
+
 (function() {
 
     var guesses = 8;    // total # guesses possible
@@ -498,6 +499,13 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       userMsg[3] = 'Best time today: ' + timeString(myBestTime) + '.';
     }
 
+    // store time in a JSON object
+    var obj = {"myBestTime":myBestTime, "timeString":timeString};
+    console.log(obj);
+    // Add double quotation marks around object
+    var json= JSON.stringify(obj);
+        console.log(json);
+
     return userMsg;
 
     // Create readable string that shows minutes & seconds - for use in a user msg
@@ -516,6 +524,33 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
       return timeMsg;
     }
+
+    $(function (){
+        function getData(){
+            var data = {
+                myBestTime : $("myBestTime").val()
+            };
+
+        $.ajax({
+            type : "POST",
+            url : "/path-to/hosting/save",
+            data : JSON.stringify(data),
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+                display(data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+    }
+    });
   }
 
   // Reset guess array to all zero
