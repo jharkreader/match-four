@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("")
@@ -33,7 +34,40 @@ public class HomeController {
     public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute("user", new User());
             return "userLogin";
+        }
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        for (User eachUser : userDao.findAll()) {
+            userList.add(eachUser);
+        }
+
+        boolean userExists = false;
+
+        for (User eachUser : userList) {
+            if (user.getName().equals(eachUser.getName())) {
+                userExists = true;
+            }
+        }
+
+        if (!userExists) {
+            // TODO Need span on form to display these error messages
+            model.addAttribute("userError", "User name does not exist. Please sign up!");
+            model.addAttribute("user", new User());
+            return "userLogin";
+        }
+
+        if (userExists) {
+            int id = user.getId();
+            User userInDatabase = userDao.findOne(id);
+
+            if (!user.getPassword().equals(userInDatabase.getPassword())) {
+                model.addAttribute("passwordError", "Invalid password!");
+                model.addAttribute("user", new User());
+                return "userLogin";
+            }
         }
 
         model.addAttribute("username", user.getName());
