@@ -45,9 +45,11 @@ public class HomeController {
         }
 
         boolean userExists = false;
+        String verifyPassword = "";
 
         for (User eachUser : userList) {
             if (user.getName().equals(eachUser.getName())) {
+                verifyPassword = eachUser.getPassword();
                 userExists = true;
             }
         }
@@ -61,17 +63,7 @@ public class HomeController {
 
         if (userExists) {
 
-            int id = user.getId();
-            //TODO id always generates 0 here, not sure why
-
-            User storedUser = userDao.findOne(id);
-
-            //Used for testing
-//            System.out.println(user.getPassword());
-//            System.out.println(id);
-//            System.out.println(userDao.findOne(id).getPassword());
-
-            if (!user.getPassword().equals(storedUser.getPassword())) {
+            if (!user.getPassword().equals(verifyPassword)) {
                 model.addAttribute("passwordError", "Invalid password!");
                 model.addAttribute("user", new User());
                 return "userLogin";
