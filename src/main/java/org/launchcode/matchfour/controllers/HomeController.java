@@ -21,28 +21,28 @@ public class HomeController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model){
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String logIn(Model model){
 
         model.addAttribute("user", new User());
         model.addAttribute("title", "Welcome to MatchFour!" );
         return "userLogin";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String index(@ModelAttribute @Valid User user, Errors errors, Model model) {
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             return "userLogin";
         }
 
         model.addAttribute("username", user.getName());
-        return "redirect:/play";
+        return "redirect";
     }
 
 
     @RequestMapping(value = "signUp", method = RequestMethod.GET)
-    public String add(Model model) {
+    public String addUser(Model model) {
         model.addAttribute("title", "Sign up!");
         model.addAttribute("user", new User());
 
@@ -50,7 +50,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public String add(@ModelAttribute @Valid User user, Errors errors, Model model) {
+    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             return "userSignUp";
@@ -58,11 +58,11 @@ public class HomeController {
 
         userDao.save(user);
         model.addAttribute("username", user.getName());
-        return "redirect"; //back to log in page
+        return "redirect";
     }
 
-    @RequestMapping(value = "play")
-    public String play(Model model){
+    @RequestMapping(value = "")
+    public String index(Model model){
 
         model.addAttribute("title", "Let's Play!" );
         return "game";
