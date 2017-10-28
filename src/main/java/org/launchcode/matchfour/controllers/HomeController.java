@@ -60,10 +60,18 @@ public class HomeController {
         }
 
         if (userExists) {
-            int id = user.getId();
-            User userInDatabase = userDao.findOne(id);
 
-            if (!user.getPassword().equals(userInDatabase.getPassword())) {
+            int id = user.getId();
+            //TODO id always generates 0 here, not sure why
+
+            User storedUser = userDao.findOne(id);
+
+            //Used for testing
+//            System.out.println(user.getPassword());
+//            System.out.println(id);
+//            System.out.println(userDao.findOne(id).getPassword());
+
+            if (!user.getPassword().equals(storedUser.getPassword())) {
                 model.addAttribute("passwordError", "Invalid password!");
                 model.addAttribute("user", new User());
                 return "userLogin";
