@@ -32,15 +32,63 @@
   --color6: #be32be;
 }
 
-body,h1,h2,h3,h4,h5,h6 {font-family: "Poppins", sans-serif}
+body,h1,h2,h3,h4,h5,h6,p, input {
+  font-family: "Poppins", sans-serif;
+  color: white;
+}
+h1 {
+  font-size: 2em;
+  margin-top: 5vh;
+}
+h2 {
+  font-size: 1.7em;
+}
+/*TBD add class name login to ol & form els in login screen*/
+.login {
+  margin: 15px auto 40px auto;
+  text-align: center;
+}
+ol.login {
+  max-width: 600px;
+}
+form.login {
+  max-width: 300px;
+}
+.login li {
+  color:black;
+  text-align: left;
+}
+.login input[type="submit"] {
+  color: #575656;
+}
+.login input[type="submit"]:hover {
+  color: black;
+  background-color:azure;
+  cursor: pointer;
+}
+.login a:hover {
+  color:#28c2fa;
+}
 body {
   background-color: #42444b!important;
-  /*  could use jpeg background instead of bg-color */
-/*  background: url("../img/wood3.jpg") no-repeat center center fixed; */
+
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+
+  /*  could use jpeg background instead of bg-color */
+/*  background: url("../img/wood3.jpg") no-repeat center center fixed; */
+
+/*   For textured background */
+/*
+  background-color: #2b2b2c;
+  background-image: url("../images/asfalt-light.png");
+  -webkit-background-size: repeat;
+  -moz-background-size: repeat;
+  -o-background-size: repeat;
+  background-size: repeat;
+*/
 }
 
 body, html {
@@ -76,6 +124,10 @@ body {
 /*********************************************************
  *  3. COLOR PALETTE
  ********************************************************/
+/* text shadow for most of the font awesome icons */
+.palette .picker, .checkMark, .nextGame {
+  text-shadow: 2px 2px 2px #262626;
+}
 .palette, .board {
   box-sizing: border-box;
   display:inline-block;
@@ -144,7 +196,6 @@ body {
   overflow-x: auto;
   overflow-y: auto;
   white-space: nowrap;
-  width: 70%;
 }
 .board .guess:first-child .slot {
   vertical-align:middle;
@@ -284,7 +335,7 @@ body {
   visibility:visible;
 }
 .board .showSolution p {
-  color: white;
+/*  color: white;*/
   text-align:center;
   line-height:1.4;
   margin-bottom: 0;
@@ -293,7 +344,7 @@ body {
   display: inline-block;
 }
 .showSolution .playHere i {
-  color: white;
+/*  color: white;*/
   padding-right: 2vh;
 }
 
@@ -316,6 +367,49 @@ body {
   display: inline-block;
 }
 
+/*********************************************
+ * TO DO : DANIELE add directions to html and styling for it here...
+ * INSTRUCTIONS SECTION
+ * Note: 'instructions' class relates to the div that contains all instructions
+ * 'openIt' class relates to the question mark that should display when user closes directions
+ *********************************************/
+
+/* note that the width for the instructions & openIt divs are set as % in the media section
+ because they vary depending on screen size */
+.instructions, .openIt {
+/*  color: white;*/
+  display: none;
+  height: 300px; /* check that this works for all screen sizes */
+  margin: 5vh 1% 0 0;
+  padding: 15px;
+  position: relative;
+}
+.instructions {
+  border: 2px dashed yellow;
+}
+.instructions .close, .openIt .help {
+  opacity: .5;
+  padding:0 3px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.instructions .close:hover, .openIt .help:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+.instructions.showThis, .openIt.showThis {
+  display: block;
+}
+.instructions h3 {
+  color: yellow;
+}
+.instructions p {
+  color: orange;
+}
+.instructions ul li {
+  color: green;
+}
 
 
 /*********************************************************
@@ -345,6 +439,9 @@ body {
   }
   .board {
     width: 80%;
+  }
+  .instructions.showThis, .openIt.showThis {
+    display: none;
   }
   .board .slot, .board .pegs {
     width: 4vh;
@@ -388,7 +485,6 @@ body {
   .palette, .board {
     padding: 2vh 3vh;
   }
-/*  .board .guess:nth-child(2) p {*/
   .board .showSolution p {
     width:36vh;
     font-size: 120%;
@@ -407,10 +503,16 @@ body {
     font-size: 16px;
   }
   .palette {
-    width: 30%;
+    width: 12%;
   }
   .board {
-    width: 70%;
+    width: 61%;
+  }
+  .instructions, .openIt {
+    width: 24%;
+  }
+  .instructions.showThis, .openIt.showThis {
+    display: block;
   }
   .board .slot, .board .pegs {
     width: 9vh;
@@ -419,7 +521,6 @@ body {
   .palette, .board {
     padding: 5vh 5vh;
   }
-/*  .board .guess:nth-child(2) p {*/
   .board .showSolution p {
     width:46vh;
   }
@@ -429,12 +530,14 @@ body {
 /*lg screen*/
 @media (min-width: 992px) {
   .palette {
-    width: 32%;
+    width: 17%;
   }
   .board {
-    width: 68%;
+    width: 49%;
   }
-
+  .instructions, .openIt {
+    width: 30%;
+  }
 }
 
 /*xl screen*/
