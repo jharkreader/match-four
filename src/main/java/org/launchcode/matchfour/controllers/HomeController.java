@@ -1,17 +1,14 @@
 package org.launchcode.matchfour.controllers;
 
-import org.launchcode.matchfour.models.HostingForm;
+import org.launchcode.matchfour.models.UserTime;
 import org.launchcode.matchfour.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.launchcode.matchfour.models.User;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
@@ -70,10 +67,15 @@ public class HomeController {
         return "game";
     }
 
-    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
-    public String updateHosting(@RequestBody HostingForm hostingForm) {
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
+    public String getHosting(@RequestBody UserTime userTime) {
 
         return "game";
     }
-
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
+    public String updateHosting(@RequestBody UserTime userTime) {
+        System.out.println(userTime);
+        System.out.println(userTime.getTime());
+        return "game";
+    }
 }
