@@ -5,14 +5,16 @@
 <h1 align="center" th:text="${title}">Welcome to MatchFour!</h1>
 
 <h2 align="center">How to Play:</h2>
-<ol class="list-group">
+<ol class="list-group-login">
     <li class="list-group-item">Click to select a color</li>
     <li class="list-group-item">Click on a box within the first row (your currently selected color will show before you make your guess)</li>
     <li class="list-group-item">Fill in all four boxes with your guesses, then click the green check mark to confirm your guess</li>
     <li class="list-group-item">4 circles will display next to your confirmed guess. Black = Correct slot and color, White = Correct Color, Wrong Slot</li>
+    <li class="list-group-item">Correctly guess all 4 colors to win!</li>
 </ol>
 <h2 align="center">Please enter your username and password: </h2>
-<form th:align="center" method="post" style="margin=0 auto;" th:object="${user}"> <!--add action to correct path-->
+<p style="text-align:center">(You'll be able to track your best play time)</p>
+<form class="list-group-login" th:align="center" method="post" style="margin=0 auto;" th:object="${user}"> <!--add action to correct path-->
     <div style="text-align:center" class="form-group">
                 <label th:for="name">Username</label>
                 <input class="form-control" th:field="${user.name}" />

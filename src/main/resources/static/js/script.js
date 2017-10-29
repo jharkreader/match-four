@@ -50,7 +50,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       el.addEventListener("click", startGame);
     });
 
-
     // Add event listeners for clicks on game slots
     for (var j = 1; j <= 8; j++) {
       var slots = document.getElementById("guess_" + j).getElementsByClassName("slot");
@@ -77,6 +76,10 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     Array.prototype.filter.call(checks, function(el, i){
       el.addEventListener("click", function(){ checkAnswer(); });
     });
+
+  // Add event listener to toggle user help
+  document.getElementById("instructionsShow").addEventListener("click", toggleInstructions);
+  document.getElementById("instructionsHide").addEventListener("click", toggleInstructions);
 
   /***********************************************************************
    * FUNCTIONS CALLED BY USER EVENTS  (start new game, select color, assign color to a slot, check answer)
@@ -206,6 +209,19 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     setHoverColor();
   }
 
+  // Toggle between showing instructions & showing question mark
+  function toggleInstructions() {
+    var qMark = document.getElementById("justQuestionMark");
+    var directions = document.getElementById("gameDirections");
+
+    if (directions.classList.contains("showThis")) {
+      directions.classList.remove("showThis");
+      qMark.classList.add("showThis");
+    } else if (qMark.classList.contains("showThis")) {
+      qMark.classList.remove("showThis");
+      directions.classList.add("showThis");
+    }
+  }
 
   /*********************************************************************************
    * OTHER HELPER FUNCTIONS (called by the main fcns above, to avoid repetition)
