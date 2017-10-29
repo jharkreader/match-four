@@ -499,12 +499,29 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       userMsg[3] = 'Best time today: ' + timeString(myBestTime) + '.';
     }
 
-    // store time in a JSON object
-    var obj = {"myBestTime":myBestTime, "timeString":timeString};
-    console.log(obj);
-    // Add double quotation marks around object
-    var json= JSON.stringify(obj);
-        console.log(json);
+    // Send an AJAX call to server with user's best time
+    var myTime = myBestTime;
+    console.log(myTime)
+
+      $.ajax({
+          type : "POST",
+          url : "/path-to/hosting/save",
+          data : JSON.stringify({
+            'myTime': myTime
+          }),
+          dataType : 'json',
+          timeout : 100000,
+          contentType:'application/json',
+          success : function(data) {
+              console.log("SUCCESS: ", data);
+          },
+          error : function(e) {
+              console.log("ERROR: ", e);
+          },
+          done : function(e) {
+              console.log("DONE");
+          }
+      });
 
     return userMsg;
 
@@ -524,33 +541,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
       return timeMsg;
     }
-
-    $(function (){
-        function getData(){
-            var data = {
-                myBestTime : $("myBestTime").val()
-            };
-
-        $.ajax({
-            type : "POST",
-            url : "/path-to/hosting/save",
-            data : JSON.stringify(data),
-            dataType : 'json',
-            timeout : 100000,
-            success : function(data) {
-                console.log("SUCCESS: ", data);
-                display(data);
-            },
-            error : function(e) {
-                console.log("ERROR: ", e);
-                display(e);
-            },
-            done : function(e) {
-                console.log("DONE");
-            }
-        });
-    }
-    });
   }
 
   // Reset guess array to all zero
