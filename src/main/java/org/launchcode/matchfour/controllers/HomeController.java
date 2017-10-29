@@ -34,6 +34,7 @@ public class HomeController {
     public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Welcome to MatchFour!" );
             model.addAttribute("user", new User());
             return "userLogin";
         }
@@ -56,6 +57,7 @@ public class HomeController {
 
         if (!userExists) {
             // TODO Need span on form to display these error messages
+            model.addAttribute("title", "Welcome to MatchFour!" );
             model.addAttribute("userError", "User name does not exist. Please sign up!");
             model.addAttribute("user", new User());
             return "userLogin";
@@ -64,6 +66,7 @@ public class HomeController {
         if (userExists) {
 
             if (!user.getPassword().equals(verifyPassword)) {
+                model.addAttribute("title", "Welcome to MatchFour!" );
                 model.addAttribute("passwordError", "Invalid password!");
                 model.addAttribute("user", new User());
                 return "userLogin";
@@ -87,6 +90,7 @@ public class HomeController {
     public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Sign up!");
             return "userSignUp";
         }
 
@@ -106,6 +110,7 @@ public class HomeController {
 
         //TODO Also needs error display span
         if (userExists) {
+            model.addAttribute("title", "Sign up!");
             model.addAttribute("userError", "User name exists. Please select another.");
             return "userSignUp";
         }
