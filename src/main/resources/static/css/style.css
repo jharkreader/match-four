@@ -181,7 +181,6 @@ body {
 }
 
 .dupl {
-  color: gray;
   margin: 0 10px;
 }
 .dupl input {
@@ -379,13 +378,10 @@ body {
 .instructions, .openIt {
 /*  color: white;*/
   display: none;
-  height: 300px; /* check that this works for all screen sizes */
+  height: 500px; /* check that this works for all screen sizes */
   margin: 5vh 1% 0 0;
   padding: 15px;
   position: relative;
-}
-.instructions {
-  border: 2px dashed yellow;
 }
 .instructions .close, .openIt .help {
   opacity: .5;
@@ -402,13 +398,13 @@ body {
   display: block;
 }
 .instructions h3 {
-  color: yellow;
+  color: white;
 }
 .instructions p {
   color: orange;
 }
-.instructions ul li {
-  color: green;
+.instructions ul {
+  color: white;
 }
 
 
