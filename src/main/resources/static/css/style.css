@@ -382,6 +382,7 @@ body {
   margin: 5vh 1% 0 0;
   padding: 15px;
   position: relative;
+  font-size: 12px;
 }
 .instructions .close, .openIt .help {
   opacity: .5;
