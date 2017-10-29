@@ -58,7 +58,7 @@ public class HomeController {
 
         userDao.save(user);
         model.addAttribute("username", user.getName());
-        return "redirect"; //back to log in page
+        return "redirect:"; //back to log in page
     }
 
     @RequestMapping(value = "play")
