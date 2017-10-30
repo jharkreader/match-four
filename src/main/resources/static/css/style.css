@@ -295,6 +295,28 @@ color: rgba(0,0,0,.9);
 }
 
 /*Styling for each tiny peg*/
+.pegSample, .pegSample div {
+  display: block;
+}
+.pegSample .pegSlot {
+    width: 20px;
+}
+.pegSample .pegSlot, .pegSample p {
+    height: 20px;
+    display: inline-block;
+}
+.pegSample .pegDescription {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+.pegSample p {
+/*
+  vertical-align: middle;
+  font-size: 12px;
+*/
+}
 .halfHeight {
   height: 50%;
 }
@@ -307,7 +329,8 @@ color: rgba(0,0,0,.9);
 .peg {
   vertical-align:middle;
   background-color: #888787;
-  border: 1px solid white;
+  border-color: red;
+  border-style: solid;
   border-radius:50%;
   height:100%;
   width: 100%;
@@ -315,11 +338,11 @@ color: rgba(0,0,0,.9);
 
 .peg.blackPeg {
   background-color: black;
-  border: 2px solid limegreen;
+  border-color: limegreen;
 }
 .peg.whitePeg {
   background-color: white;
-  border: 2px solid orange;
+  border-color: orange;
 }
 
 /* Hide pegs & check marks for each guess row until user plays that row */
@@ -411,9 +434,6 @@ color: rgba(0,0,0,.9);
 .instructions h3 {
   color: white;
 }
-.instructions p {
-  color: orange;
-}
 .instructions ul {
   color: white;
 }
@@ -462,11 +482,8 @@ color: rgba(0,0,0,.9);
     width:22vh;
     font-size: 80%;
   }
-  .peg.blackPeg {
-    border: 1px solid limegreen;
-  }
-  .peg.whitePeg {
-    border: 1px solid orange;
+  .peg {
+    border-width: 1px;
   }
 }
 
@@ -496,11 +513,8 @@ color: rgba(0,0,0,.9);
     width:36vh;
     font-size: 120%;
   }
-  .peg.blackPeg {
-    border: 2px solid limegreen;
-  }
-  .peg.whitePeg {
-    border: 2px solid orange;
+  .peg {
+    border-width: 2px;
   }
 }
 
@@ -510,10 +524,10 @@ color: rgba(0,0,0,.9);
     font-size: 16px;
   }
   .palette {
-    width: 12%;
+    width: 11%;
   }
   .board {
-    width: 61%;
+    width: 64%;
   }
   .instructions, .openIt {
     width: 24%;
@@ -522,7 +536,10 @@ color: rgba(0,0,0,.9);
     display: block;
   }
   .instructions h3 {
-    font-size:22px;
+    font-size:18px;
+  }
+  .pegSample span {
+    display: none;
   }
   .board .slot, .board .pegs {
     width: 9vh;
@@ -550,6 +567,9 @@ color: rgba(0,0,0,.9);
   }
   .instructions h3 {
     font-size:30px;
+  }
+  .pegSample span {
+    display:inline-block;
   }
 }
 
