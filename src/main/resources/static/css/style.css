@@ -117,8 +117,19 @@ body {
 .navbar-collapse  {
   direction: rtl;
 }
-
-
+.navbar .navbar-nav .myMenu {
+display: inline;
+color: rgba(0,0,0,.9);
+}
+.navbar p {
+  padding: 8px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,.5);
+}
+.navbar .myMenu:hover {
+  color: black;
+  font-weight: 800;
+}
 
 
 /*********************************************************
@@ -367,7 +378,6 @@ body {
 }
 
 /*********************************************
- * TO DO : DANIELE add directions to html and styling for it here...
  * INSTRUCTIONS SECTION
  * Note: 'instructions' class relates to the div that contains all instructions
  * 'openIt' class relates to the question mark that should display when user closes directions
@@ -511,6 +521,9 @@ body {
   .instructions.showThis, .openIt.showThis {
     display: block;
   }
+  .instructions h3 {
+    font-size:22px;
+  }
   .board .slot, .board .pegs {
     width: 9vh;
     height: 9vh;
@@ -534,6 +547,9 @@ body {
   }
   .instructions, .openIt {
     width: 30%;
+  }
+  .instructions h3 {
+    font-size:30px;
   }
 }
 
