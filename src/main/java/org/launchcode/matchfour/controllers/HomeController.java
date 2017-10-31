@@ -1,6 +1,5 @@
 package org.launchcode.matchfour.controllers;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.launchcode.matchfour.models.UserTime;
 import org.launchcode.matchfour.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Controller
 @RequestMapping("")
@@ -74,8 +74,6 @@ public class HomeController {
             }
         }
 
-        System.out.println(user);
-
         ra.addFlashAttribute("username", "Welcome " + user.getName());
         return "redirect:";
     }
@@ -130,6 +128,7 @@ public class HomeController {
 
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
     public String updateHosting(@RequestBody UserTime userTime){
+
         System.out.println(userTime.getTime());
         return "game";
     }
