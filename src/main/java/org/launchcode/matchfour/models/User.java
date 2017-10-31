@@ -19,7 +19,7 @@ public class User {
     @Size(min=8,  message = "Please enter a password with at least 8 characters")
     private String password;
 
-    private double bestTime = 99999.0;
+    private double bestTime;
 
     public User() {}
 

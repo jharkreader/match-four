@@ -11,9 +11,10 @@ import org.launchcode.matchfour.models.User;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.xml.ws.http.HTTPBinding;
 import java.util.ArrayList;
-import java.util.Map;
 
 @Controller
 @RequestMapping("")
@@ -32,7 +33,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra) {
+    public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra, HttpSession session) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Welcome to MatchFour!" );
@@ -74,7 +75,10 @@ public class HomeController {
             }
         }
 
+        session.setAttribute("loggedInUser", user);
         ra.addFlashAttribute("username", "Welcome " + user.getName());
+        System.out.println("Session user: " + session.getAttribute("loggedInUser"));
+        System.out.println("User from database: " + user);
         return "redirect:";
     }
 
@@ -88,7 +92,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra) {
+    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra, HttpSession session) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Sign up!");
@@ -117,6 +121,7 @@ public class HomeController {
         }
 
         userDao.save(user);
+        session.setAttribute("loggedInUser", user);
         ra.addFlashAttribute("username", "Welcome " + user.getName());
         return "redirect:";
     }
@@ -126,10 +131,29 @@ public class HomeController {
         return "game";
     }
 
-    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
-    public String updateHosting(@RequestBody UserTime userTime){
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logOut(HttpSession session) {
+        System.out.println(session.getAttribute("loggedInUser"));
+        session.removeAttribute("loggedInUser");
+        return "redirect:";
+    }
 
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
+    public String updateTime(@RequestBody UserTime userTime, HttpSession session){
+        System.out.println("Session user: " + session.getAttribute("loggedInUser"));
         System.out.println(userTime.getTime());
+
+        double currentTime = userTime.getTime();
+
+        for(User user : userDao.findAll()){
+            if(user == session.getAttribute("loggedInUser")){
+                user.setBestTime(currentTime);
+                userDao.save(user);
+                System.out.println(user.getBestTime());
+                System.out.println("User from db: " + user);
+            }
+        }
+
         return "game";
     }
 }
