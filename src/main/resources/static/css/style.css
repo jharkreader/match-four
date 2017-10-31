@@ -117,8 +117,19 @@ body {
 .navbar-collapse  {
   direction: rtl;
 }
-
-
+.navbar .navbar-nav .myMenu {
+display: inline;
+color: rgba(0,0,0,.9);
+}
+.navbar p {
+  padding: 8px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,.5);
+}
+.navbar .myMenu:hover {
+  color: black;
+  font-weight: 800;
+}
 
 
 /*********************************************************
@@ -181,7 +192,6 @@ body {
 }
 
 .dupl {
-  color: gray;
   margin: 0 10px;
 }
 .dupl input {
@@ -285,6 +295,28 @@ body {
 }
 
 /*Styling for each tiny peg*/
+.pegSample, .pegSample div {
+  display: block;
+}
+.pegSample .pegSlot {
+    width: 20px;
+}
+.pegSample .pegSlot, .pegSample p {
+    height: 20px;
+    display: inline-block;
+}
+.pegSample .pegDescription {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+.pegSample p {
+/*
+  vertical-align: middle;
+  font-size: 12px;
+*/
+}
 .halfHeight {
   height: 50%;
 }
@@ -297,7 +329,8 @@ body {
 .peg {
   vertical-align:middle;
   background-color: #888787;
-  border: 1px solid white;
+  border-color: red;
+  border-style: solid;
   border-radius:50%;
   height:100%;
   width: 100%;
@@ -305,11 +338,11 @@ body {
 
 .peg.blackPeg {
   background-color: black;
-  border: 2px solid limegreen;
+  border-color: limegreen;
 }
 .peg.whitePeg {
   background-color: white;
-  border: 2px solid orange;
+  border-color: orange;
 }
 
 /* Hide pegs & check marks for each guess row until user plays that row */
@@ -368,7 +401,6 @@ body {
 }
 
 /*********************************************
- * TO DO : DANIELE add directions to html and styling for it here...
  * INSTRUCTIONS SECTION
  * Note: 'instructions' class relates to the div that contains all instructions
  * 'openIt' class relates to the question mark that should display when user closes directions
@@ -379,13 +411,11 @@ body {
 .instructions, .openIt {
 /*  color: white;*/
   display: none;
-  height: 300px; /* check that this works for all screen sizes */
+  height: 500px; /* check that this works for all screen sizes */
   margin: 5vh 1% 0 0;
   padding: 15px;
   position: relative;
-}
-.instructions {
-  border: 2px dashed yellow;
+  font-size: 12px;
 }
 .instructions .close, .openIt .help {
   opacity: .5;
@@ -402,13 +432,10 @@ body {
   display: block;
 }
 .instructions h3 {
-  color: yellow;
+  color: white;
 }
-.instructions p {
-  color: orange;
-}
-.instructions ul li {
-  color: green;
+.instructions ul {
+  color: white;
 }
 
 
@@ -455,11 +482,8 @@ body {
     width:22vh;
     font-size: 80%;
   }
-  .peg.blackPeg {
-    border: 1px solid limegreen;
-  }
-  .peg.whitePeg {
-    border: 1px solid orange;
+  .peg {
+    border-width: 1px;
   }
 }
 
@@ -489,11 +513,8 @@ body {
     width:36vh;
     font-size: 120%;
   }
-  .peg.blackPeg {
-    border: 2px solid limegreen;
-  }
-  .peg.whitePeg {
-    border: 2px solid orange;
+  .peg {
+    border-width: 2px;
   }
 }
 
@@ -503,16 +524,22 @@ body {
     font-size: 16px;
   }
   .palette {
-    width: 12%;
+    width: 11%;
   }
   .board {
-    width: 61%;
+    width: 64%;
   }
   .instructions, .openIt {
     width: 24%;
   }
   .instructions.showThis, .openIt.showThis {
     display: block;
+  }
+  .instructions h3 {
+    font-size:18px;
+  }
+  .pegSample span {
+    display: none;
   }
   .board .slot, .board .pegs {
     width: 9vh;
@@ -537,6 +564,12 @@ body {
   }
   .instructions, .openIt {
     width: 30%;
+  }
+  .instructions h3 {
+    font-size:30px;
+  }
+  .pegSample span {
+    display:inline-block;
   }
 }
 
