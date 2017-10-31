@@ -1,5 +1,8 @@
 package org.launchcode.matchfour.models;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class UserTime {
 
     // Variables
