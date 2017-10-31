@@ -32,7 +32,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model) {
+    public String logIn(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Welcome to MatchFour!" );
@@ -74,7 +74,10 @@ public class HomeController {
             }
         }
 
-        model.addAttribute("username", user.getName());
+        System.out.println(user);
+
+        ra.addFlashAttribute("username", "Welcome " + user.getName() + "!");
+        System.out.println(user.getName());
         return "redirect:";
     }
 
@@ -88,7 +91,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra) {
+    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Sign up!");
@@ -117,32 +120,17 @@ public class HomeController {
         }
 
         userDao.save(user);
-
-        ra.addAttribute("username", user.getName());
-
         return "redirect:";
     }
 
     @RequestMapping(value = "")
-    public String index(Model model, @RequestParam("username") String username,
-                        @ModelAttribute("flashAttr") String flashAttr){
-
-        System.out.println(username);
-        model.addAttribute("username", username);
-        model.addAttribute("title", "Let's Play!" );
+    public String index(Model model){
         return "game";
     }
 
-    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
-    public String getHosting(@RequestBody UserTime userTime) {
-
-        return "game";
-    }
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
-    public String updateHosting(@RequestParam String userTime) {
-        JSONParser parser = new JSONParser();
-
-
+    public String updateHosting(@RequestBody UserTime userTime){
+        System.out.println(userTime.getTime());
         return "game";
     }
 }
