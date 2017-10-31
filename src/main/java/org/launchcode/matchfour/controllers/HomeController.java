@@ -121,6 +121,7 @@ public class HomeController {
         }
 
         userDao.save(user);
+        System.out.println("Newly creted user: " + user);
         session.setAttribute("loggedInUser", user);
         ra.addFlashAttribute("username", "Welcome " + user.getName());
         return "redirect:";
@@ -143,17 +144,23 @@ public class HomeController {
         System.out.println("Session user: " + session.getAttribute("loggedInUser"));
         System.out.println(userTime.getTime());
 
-        double currentTime = userTime.getTime();
+        User currentUser = (User) session.getAttribute("loggedInUser");
+        String username = currentUser.getName();
+        System.out.println("Current user: " + currentUser);
 
-        for(User user : userDao.findAll()){
-            if(user == session.getAttribute("loggedInUser")){
-                user.setBestTime(currentTime);
-                userDao.save(user);
-                System.out.println(user.getBestTime());
-                System.out.println("User from db: " + user);
+        double currentTime = userTime.getTime();
+        if(session.getAttribute("loggedInUser") != null) {
+            for (User user : userDao.findAll()) {
+                if (user.getName().equals(username)) {
+                    if (user.getBestTime() > currentTime) {
+                        user.setBestTime(currentTime);
+                        userDao.save(user);
+                        System.out.println(user.getBestTime());
+                        System.out.println("User from db: " + user);
+                    }
+                }
             }
         }
-
         return "game";
     }
 }
