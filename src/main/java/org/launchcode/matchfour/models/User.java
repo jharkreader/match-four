@@ -19,7 +19,7 @@ public class User {
     @Size(min=8,  message = "Please enter a password with at least 8 characters")
     private String password;
 
-    private UserTime bestTime;
+    private double bestTime = 99999.0;
 
     public User() {}
 
@@ -44,11 +44,11 @@ public class User {
         this.password = password;
     }
 
-    public UserTime getBestTime() {
+    public double getBestTime() {
         return bestTime;
     }
 
-    public void setBestTime(UserTime bestTime) {
+    public void setBestTime(double bestTime) {
         this.bestTime = bestTime;
     }
 
