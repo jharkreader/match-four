@@ -76,7 +76,7 @@ public class HomeController {
 
         System.out.println(user);
 
-        ra.addFlashAttribute("username", "Welcome " + user.getName() + "!");
+        ra.addFlashAttribute("username", "Welcome " + user.getName());
         System.out.println(user.getName());
         return "redirect:";
     }
