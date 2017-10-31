@@ -1,5 +1,6 @@
 package org.launchcode.matchfour.controllers;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import org.launchcode.matchfour.models.UserTime;
 import org.launchcode.matchfour.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,9 +134,10 @@ public class HomeController {
         return "game";
     }
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
-    public String updateHosting(@RequestBody UserTime userTime) {
-        System.out.println(userTime);
-        System.out.println(userTime.getTime());
+    public String updateHosting(@RequestParam String userTime) {
+        JSONParser parser = new JSONParser();
+
+
         return "game";
     }
 }
