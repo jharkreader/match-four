@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <title>MatchFour</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
@@ -12,7 +11,6 @@
 </head>
 
 <body id="main">
-
 <!--This responsive navbar template from https://v4-alpha.getbootstrap.com/components/navbar/
 The built-in Bootstrap classes automatically toggle
 a drop down menu on smaller devices.-->
@@ -25,7 +23,7 @@ a drop down menu on smaller devices.-->
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="" id="newGame">New Game</a>
             <a class="nav-item nav-link" href="login">Log in/Sign up</a>
-            <p id="userName" style="padding: .5em;">userNameHere</p>
+            <p id="userName" style="padding: .5em;" th:text="${username}">userNameHere</p>
         </div>
     </div>
 </nav>
@@ -408,6 +406,8 @@ a drop down menu on smaller devices.-->
     <div class="instructions showThis" id="gameDirections">
         <a class="close" id="instructionsHide"><i class="fa fa-window-close fa-2x"></i></a>
         <h3>some header...</h3>
+        <p th:text="${username}">Username</p>
+        <p>Hello, World</p>
         <p> paragraph text or...</p>
         <ul>
             <li>list item 1</li>

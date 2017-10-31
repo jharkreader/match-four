@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.launchcode.matchfour.models.User;
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model) {
+    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra) {
 
         if (errors.hasErrors()) {
             return "userSignUp";
@@ -110,14 +111,18 @@ public class HomeController {
         }
 
         userDao.save(user);
-        model.addAttribute("username", user.getName());
+
+        ra.addAttribute("username", user.getName());
 
         return "redirect:";
     }
 
     @RequestMapping(value = "")
-    public String index(Model model){
+    public String index(Model model, @RequestParam("username") String username,
+                        @ModelAttribute("flashAttr") String flashAttr){
 
+        System.out.println(username);
+        model.addAttribute("username", username);
         model.addAttribute("title", "Let's Play!" );
         return "game";
     }
