@@ -15,15 +15,17 @@ public class User {
     @Size(min=3, max=15,  message = "Please enter a username with at least 3 characters")
     private String name;
 
-    public User(String name) {
-        this.name = name;
-    }
-
     @NotNull
     @Size(min=8,  message = "Please enter a password with at least 8 characters")
     private String password;
 
     public User() {}
+
+    public User(String name) {
+        this();
+        this.name = name;
+    }
+
 
     public String getName() {
         return name;

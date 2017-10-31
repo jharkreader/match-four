@@ -4,7 +4,7 @@
 <head>
     <title>MatchFour</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Poppins:300" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
@@ -23,9 +23,9 @@ a drop down menu on smaller devices.-->
     <a class="navbar-brand" href="#">MatchFour</a>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="" id="newGame">New Game</a>
-            <a class="nav-item nav-link" href="login">Log in/Sign up</a>
-            <p id="userName" style="padding: .5em;">userNameHere</p>
+            <a class="myMenu nav-item nav-link" href="#" id="newGame">New Game</a>
+            <p>Want to track your best time? <a class="myMenu nav-item nav-link" href="signUp">Sign up</a> or<a class="myMenu nav-item nav-link" href="login"> Log in</a></p>
+            <p id="userName">userNameHere</p>
         </div>
     </div>
 </nav>
@@ -36,28 +36,27 @@ a drop down menu on smaller devices.-->
     <!--      Color picker section-->
     <!--  Note classes with 'fa' prefix are all font-awesome icons-->
     <div class="palette" id ="colorPalette">
-        <div class="picker" value="1" id="pick_1">
+        <div class="picker" id="pick_1">
             <i class="fa fa-tint fa-4x"></i>
         </div>
-        <div class="picker" value="2" id="pick_2">
+        <div class="picker" id="pick_2">
             <i class="fa fa-tint fa-4x"></i>
         </div>
-        <div class="picker" value="3" id="pick_3">
+        <div class="picker" id="pick_3">
             <i class="fa fa-tint fa-4x"></i>
         </div>
-        <div class="picker" value="4" id="pick_4">
+        <div class="picker" id="pick_4">
             <i class="fa fa-tint fa-4x"></i>
         </div>
-        <div class="picker" value="5" id="pick_5">
+        <div class="picker" id="pick_5">
             <i class="fa fa-tint fa-4x"></i>
         </div>
-        <div class="picker" value="6" id="pick_6">
+        <div class="picker" id="pick_6">
             <i class="fa fa-tint fa-4x"></i>
         </div>
         <div id="duplicates" class="dupl">
             <input type="checkbox" /><span class="hidden-sm-down"> Allow duplicate colors in solutions</span><small class="hidden-md-up">Duplicates OK</small><br />
         </div>
-
     </div>
 
     <!--      Game board section-->
@@ -407,14 +406,48 @@ a drop down menu on smaller devices.-->
     </div>
     <div class="instructions showThis" id="gameDirections">
         <a class="close" id="instructionsHide"><i class="fa fa-window-close fa-2x"></i></a>
-        <h3>some header...</h3>
-        <p> paragraph text or...</p>
+        <h3 align="center">How to Play:</h3>
         <ul>
-            <li>list item 1</li>
-            <li>list item 2</li>
-            <li>list item 3</li>
+            <li>The computer has challenged you to MatchFour colors in a row!</li>
+            <li>Click to select a color.</li>
+            <li>Click on a box within the first row (your currently selected color will show before you make your guess).</li>
+            <li>Fill in all four boxes with your guesses, then click <i class="fa fa-check fa-2x" style="color: limegreen;"></i> to confirm your guess.</li>
+            <li>Four circles will display next to your confirmed guess:
+                <div class="pegs">
+                    <div class="pegSample">
+                        <div>
+                            <div class="pegSlot">
+                                <div class="peg blackPeg">
+                                </div>
+                            </div>
+                            <div class="pegDescription">
+                                <p>= Correct<span>&nbsp;Slot and Color</span></p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="pegSlot">
+                                <div class="peg whitePeg">
+                                </div>
+                            </div>
+                            <div class="pegDescription">
+                                <p>= <span>Correct Color,&nbsp;</span>Wrong Slot</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegDescription">
+                                <p>= Incorrect<span>&nbsp;Color</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>Correctly guess all four colors to win!</li>
+            <li>**BONUS** For a bigger challenge, select "allow for  duplicates" under the color palette!</li>
         </ul>
-
     </div>
 </div>
 
