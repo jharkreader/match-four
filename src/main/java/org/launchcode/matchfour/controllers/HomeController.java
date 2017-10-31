@@ -141,22 +141,16 @@ public class HomeController {
 
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
     public String updateTime(@RequestBody UserTime userTime, HttpSession session){
-        System.out.println("Session user: " + session.getAttribute("loggedInUser"));
-        System.out.println(userTime.getTime());
-
-        User currentUser = (User) session.getAttribute("loggedInUser");
-        String username = currentUser.getName();
-        System.out.println("Current user: " + currentUser);
 
         double currentTime = userTime.getTime();
         if(session.getAttribute("loggedInUser") != null) {
+            User currentUser = (User) session.getAttribute("loggedInUser");
+            String username = currentUser.getName();
             for (User user : userDao.findAll()) {
                 if (user.getName().equals(username)) {
                     if (user.getBestTime() > currentTime) {
                         user.setBestTime(currentTime);
                         userDao.save(user);
-                        System.out.println(user.getBestTime());
-                        System.out.println("User from db: " + user);
                     }
                 }
             }
