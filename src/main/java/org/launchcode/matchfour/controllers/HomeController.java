@@ -77,7 +77,6 @@ public class HomeController {
         System.out.println(user);
 
         ra.addFlashAttribute("username", "Welcome " + user.getName());
-        System.out.println(user.getName());
         return "redirect:";
     }
 
@@ -91,7 +90,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model) {
+    public String addUser(@ModelAttribute @Valid User user, Errors errors, Model model, RedirectAttributes ra) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Sign up!");
@@ -120,6 +119,7 @@ public class HomeController {
         }
 
         userDao.save(user);
+        ra.addFlashAttribute("username", "Welcome " + user.getName());
         return "redirect:";
     }
 
