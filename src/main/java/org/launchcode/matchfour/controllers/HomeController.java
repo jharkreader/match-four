@@ -1,5 +1,6 @@
 package org.launchcode.matchfour.controllers;
 
+import org.launchcode.matchfour.models.UserData;
 import org.launchcode.matchfour.models.UserTime;
 import org.launchcode.matchfour.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 
 public class HomeController {
 
-    @Autowired
-    private UserDao userDao;
+    private UserData userData;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String logIn(Model model){
@@ -41,33 +41,18 @@ public class HomeController {
             return "userLogin";
         }
 
-        ArrayList<User> userList = new ArrayList<>();
+        userData.generateUserList();
 
-        for (User eachUser : userDao.findAll()) {
-            userList.add(eachUser);
-        }
-
-        boolean userExists = false;
-        String verifyPassword = "";
-
-        for (User eachUser : userList) {
-            if (user.getName().equals(eachUser.getName())) {
-                verifyPassword = eachUser.getPassword();
-                userExists = true;
-            }
-        }
-
-        if (!userExists) {
-            // TODO Need span on form to display these error messages
+        if (!userData.checkUserExists(user)) {
             model.addAttribute("title", "Welcome to MatchFour!" );
             model.addAttribute("userError", "User name does not exist. Please sign up!");
             model.addAttribute("user", new User());
             return "userLogin";
         }
 
-        if (userExists) {
+        else {
 
-            if (!user.getPassword().equals(verifyPassword)) {
+            if (userData.verifyUserPassword(user)) {
                 model.addAttribute("title", "Welcome to MatchFour!" );
                 model.addAttribute("passwordError", "Invalid password!");
                 model.addAttribute("user", new User());
@@ -99,29 +84,16 @@ public class HomeController {
             return "userSignUp";
         }
 
-        ArrayList<User> userList = new ArrayList<>();
+        userData.generateUserList();
 
-        for (User eachUser : userDao.findAll()) {
-            userList.add(eachUser);
-        }
-
-        boolean userExists = false;
-
-        for (User eachUser : userList) {
-            if (user.getName().equals(eachUser.getName())) {
-                userExists = true;
-            }
-        }
-
-        //TODO Also needs error display span
-        if (userExists) {
+        if (userData.checkUserExists(user)) {
             model.addAttribute("title", "Sign up!");
             model.addAttribute("userError", "User name exists. Please select another.");
             return "userSignUp";
         }
 
-        userDao.save(user);
-        System.out.println("Newly creted user: " + user);
+        userData.saveNewUser(user);
+        System.out.println("Newly created user: " + user);
         session.setAttribute("loggedInUser", user);
         ra.addFlashAttribute("username", "Welcome " + user.getName());
         return "redirect:";
@@ -146,6 +118,9 @@ public class HomeController {
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
             String username = currentUser.getName();
+
+
+
             for (User user : userDao.findAll()) {
                 if (user.getName().equals(username)) {
                     if (user.getBestTime() > currentTime) {
