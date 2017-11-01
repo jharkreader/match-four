@@ -4,7 +4,9 @@
  *    3. COLOR PALETTE
  *    4. GAME BOARD - COLOR SLOTS
  *    5. GAME BOARD - BLACK/WHITE PEGS & CHECK MARK
- *    6. MEDIA
+ *    6. INSTRUCTIONS
+ *    7. ABOUT US
+ *    8. MEDIA
  *
  *    Notes on classes:
  *    'currentTry': remove & assign this class to 'guess' divs to mark active row
@@ -401,7 +403,7 @@ color: rgba(0,0,0,.9);
 }
 
 /*********************************************
- * INSTRUCTIONS SECTION
+ * 6. INSTRUCTIONS SECTION
  * Note: 'instructions' class relates to the div that contains all instructions
  * 'openIt' class relates to the question mark that should display when user closes directions
  *********************************************/
@@ -439,8 +441,72 @@ color: rgba(0,0,0,.9);
 }
 
 
+
 /*********************************************************
- *  6. MEDIA
+ *  7. ABOUT US
+ ********************************************************/
+
+
+.aboutUs {
+  margin: auto;
+  color: white;
+}
+.aboutUs .aboutSlots {
+  padding: .1em;
+  height: 100%;
+}
+.socMedia {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  line-height: 1.2;
+}
+.dev a {
+  color: white;
+  opacity: .7;
+  text-decoration: none;
+}
+.aboutHand, .aboutCheck {
+  margin: auto;
+  height: 150px;
+  padding: 20px;
+}
+.dev a:hover {
+  opacity: 1;
+}
+.aboutUs .dev {
+  border: 4px solid white;
+  max-width: 185px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+.aboutUs div:nth-child(2) .dev {
+  background-color: var(--color4);
+}
+.aboutUs div:nth-child(3) .dev {
+  background-color: var(--color1);
+}
+.aboutUs div:nth-child(4) .dev {
+  background-color: var(--color5);
+}
+.aboutUs div:nth-child(5) .dev {
+  background-color: var(--color6);
+}
+
+.about {
+  margin: 15% auto;
+  text-align: center;
+}
+.about .returnToGame:hover a {
+  color: #28c2fa;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+/*********************************************************
+ *  8. MEDIA
  ********************************************************/
 
 /*
@@ -485,6 +551,30 @@ color: rgba(0,0,0,.9);
   .peg {
     border-width: 1px;
   }
+  .aboutUs .aboutSlots {
+    font-size: 2em;
+  }
+  .dev a {
+    font-size: 2em;
+  }
+  .aboutHand, .aboutCheck {
+    font-size: 3em;
+  }
+  .aboutUs .dev {
+    height: 22vh;
+  }
+  .aboutUs .aboutSlots {
+    padding: .1em;
+  }
+  .pointRight {
+    display:none;
+  }
+  .pointDown {
+    display:inline-block;
+  }
+  .about h4 {
+    padding: 0;
+  }
 }
 
 /*sm screen*/
@@ -515,6 +605,29 @@ color: rgba(0,0,0,.9);
   }
   .peg {
     border-width: 2px;
+  }
+  .aboutUs .aboutSlots {
+    font-size: 1.2em;
+  }
+  .dev a {
+    font-size: 1.5em;
+  }
+  .aboutHand, .aboutCheck {
+    font-size: 1.2em;
+  }
+  .aboutUs .dev {
+    height: 15vw;
+  }
+  .aboutUs .aboutSlots {
+    height: 200px;
+    margin: 20px auto;
+    padding: .1em;
+  }
+  .pointRight {
+    display:inline-block;
+  }
+  .pointDown {
+    display:none;
   }
 }
 
@@ -551,7 +664,15 @@ color: rgba(0,0,0,.9);
   .board .showSolution p {
     width:46vh;
   }
-
+  .aboutUs .aboutSlots {
+    font-size: 1.4em;
+  }
+  .dev a {
+    font-size: 1.4em;
+  }
+  .aboutHand, .aboutCheck {
+    font-size: 2em;
+  }
 }
 
 /*lg screen*/
@@ -570,6 +691,18 @@ color: rgba(0,0,0,.9);
   }
   .pegSample span {
     display:inline-block;
+  }
+  .aboutUs .aboutSlots {
+    font-size: 2em;
+  }
+  .dev a {
+    font-size: 1.5em;
+  }
+  .aboutHand, .aboutCheck {
+    font-size: 3em;
+  }
+  .about h4 {
+    padding: 5vw;
   }
 }
 

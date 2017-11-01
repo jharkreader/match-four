@@ -22,6 +22,7 @@ a drop down menu on smaller devices.-->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="myMenu nav-item nav-link" href="logout" id="logOut" th:if="${username}">Logout</a>
+            <a class="myMenu nav-item nav-link" href="about" id="aboutDevs">About</a>
             <a class="myMenu nav-item nav-link" href="#" id="newGame">New Game</a>
             <p th:unless="${username}">Want to track your best time? <a class="myMenu nav-item nav-link" href="signUp">Sign up</a> or<a class="myMenu nav-item nav-link" href="login"> Log in</a></p>
             <p th:text="${username}" id="userName" name="username">userNameHere</p>
