@@ -2,6 +2,7 @@ package org.launchcode.matchfour.controllers;
 
 import org.launchcode.matchfour.models.UserData;
 import org.launchcode.matchfour.models.UserTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,8 @@ import javax.xml.ws.http.HTTPBinding;
 
 public class HomeController {
 
-    private UserData userData = new UserData();
+    @Autowired
+    private UserData userData;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String logIn(Model model){

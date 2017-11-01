@@ -2,9 +2,11 @@ package org.launchcode.matchfour.models;
 
 import org.launchcode.matchfour.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+@Service
 public class UserData {
 
     @Autowired
