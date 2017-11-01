@@ -106,7 +106,6 @@ public class HomeController {
         return "game";
     }
 
-    // Diane added - TO DO please check
     @RequestMapping(value = "about")
     public String about(){
         return "about";
