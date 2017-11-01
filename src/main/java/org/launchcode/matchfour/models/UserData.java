@@ -47,4 +47,16 @@ public class UserData {
         }
         return passwordVerified;
     }
+
+    public void updateUserTime(String username, double currentTime) {
+
+        for (User user : userDao.findAll()) {
+            if (user.getName().equals(username)) {
+                if (user.getBestTime() > currentTime) {
+                    user.setBestTime(currentTime);
+                    userDao.save(user);
+                }
+            }
+        }
+    }
 }
