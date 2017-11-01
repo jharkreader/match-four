@@ -43,27 +43,30 @@ public class HomeController {
         userData.generateUserList();
 
         if (!userData.checkUserExists(user)) {
+
             model.addAttribute("title", "Welcome to MatchFour!" );
             model.addAttribute("userError", "User name does not exist. Please sign up!");
             model.addAttribute("user", new User());
             return "userLogin";
         }
 
-        else {
+        else if (userData.checkUserExists(user) && !userData.verifyUserPassword(user)) {
 
-            if (userData.verifyUserPassword(user)) {
                 model.addAttribute("title", "Welcome to MatchFour!" );
                 model.addAttribute("passwordError", "Invalid password!");
                 model.addAttribute("user", new User());
                 return "userLogin";
-            }
+
         }
 
-        session.setAttribute("loggedInUser", user);
-        ra.addFlashAttribute("username", "Welcome " + user.getName());
-        System.out.println("Session user: " + session.getAttribute("loggedInUser"));
-        System.out.println("User from database: " + user);
-        return "redirect:";
+        else {
+
+            session.setAttribute("loggedInUser", user);
+            ra.addFlashAttribute("username", "Welcome " + user.getName());
+            System.out.println("Session user: " + session.getAttribute("loggedInUser"));
+            System.out.println("User from database: " + user);
+            return "redirect:";
+        }
     }
 
 
