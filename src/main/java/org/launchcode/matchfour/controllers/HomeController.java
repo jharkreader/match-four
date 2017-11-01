@@ -106,6 +106,12 @@ public class HomeController {
         return "game";
     }
 
+    // Diane added - TO DO please check
+    @RequestMapping(value = "about")
+    public String about(){
+        return "about";
+    }
+
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logOut(HttpSession session) {
         System.out.println(session.getAttribute("loggedInUser"));
