@@ -90,8 +90,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function checkAnswer() {
     var results = {};
     var endTime;
-    console.log('about to check answer and user\'s guess is:');
-    console.log(curGuess);
 
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
     if (curGuess.indexOf(0) !== -1) {
@@ -609,13 +607,10 @@ var timeString = "";  // string that shows mins:seconds for most recent game
           }
     }
 
-    console.log('just set secret solution to:');
-    console.log(secret);
   }
 
   function toggleDuplicates() {
     allowDuplicates = document.getElementById("duplicates").getElementsByTagName("input")[0].checked;
-    console.log('allowDuplicates just set to ' + allowDuplicates);
     startGame();
   }
 
