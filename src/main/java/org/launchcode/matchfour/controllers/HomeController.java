@@ -102,8 +102,25 @@ public class HomeController {
     }
 
     @RequestMapping(value = "")
-    public String index(Model model){
-        return "game";
+    public String index(Model model, HttpSession session){
+
+        if (session.getAttribute("loggedInUser") != null) {
+            User currentUser = (User) session.getAttribute("loggedInUser");
+            model.addAttribute("username", "Welcome " + currentUser.getName());
+            return "game";
+        }
+
+        else {
+            return "game";
+        }
+    }
+
+    @RequestMapping(value = "about")
+    public String about(HttpSession session){
+
+        session.getAttribute("loggedInUser");
+
+        return "about";
     }
 
     @RequestMapping(value = "logout", method = RequestMethod.GET)
