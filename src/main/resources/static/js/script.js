@@ -90,8 +90,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function checkAnswer() {
     var results = {};
     var endTime;
-    console.log('about to check answer and user\'s guess is:');
-    console.log(curGuess);
 
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
     if (curGuess.indexOf(0) !== -1) {
@@ -190,6 +188,15 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   // Start new game
   function startGame() {
+
+    // Get user's best time, if logged in, by calling ajaxGetBestTime (commented out below)
+    // Ask Tammy!
+    // TO DO:  If user is logged in, set myBestTime to user's best time.
+    // If not logged in, don't change myBestTime - leave it as is because it gets
+    // set for anonymous user when they open the app and we don't want to clear today's
+    // best time if they are playing while not logged in.
+    //var loggedTime = ajaxGetBestTime();
+    // then if valid time is returned (may need to parse JSON on returned data): myBestTime = loggedTime;
 
     // Clear old gameboard:
     removeHoverColor(1, 8);
@@ -510,16 +517,17 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     // Compare time to best time & reset if user improved (best is initialized to -1)
     if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
       myBestTime = timeSeconds;
-      userMsg[3] = 'THAT\'S YOUR BEST TIME TODAY!';
+      userMsg[3] = 'THAT\'S YOUR BEST TIME!';
     } else {
-      userMsg[3] = 'Best time today: ' + timeString(myBestTime) + '.';
+      userMsg[3] = 'Best time: ' + timeString(myBestTime) + '.';
     }
 
     // Send an AJAX call to server with user's best time
     var myTime = myBestTime;
     console.log(myTime)
 
-    ajaxBestTime("POST", myTime);
+    ajaxCheckBestTime(myTime);
+
 //      $.ajax({
 //          type : "POST",
 //          url : "/path-to/hosting/save",
@@ -560,29 +568,52 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     }
   }
 
-  // AJAX call - POST or GET - for user time
-  function ajaxBestTime(type, myTime) {
-       $.ajax({
-           type : type,
-           url : "/path-to/hosting/save",
-           data : JSON.stringify({
-             'myTime': myTime
-           }),
-           dataType : 'json',
-           timeout : 100000,
-           contentType:'application/json',
-           success : function(data) {
-               console.log("SUCCESS: ", data);
-           },
-           error : function(e) {
-               console.log("ERROR: ", e);
-           },
-           done : function(e) {
-               console.log("DONE");
-           }
-       });
-
+  // AJAX call - POST - to compare user time to previous best time
+  function ajaxCheckBestTime(myTime) {
+    $.ajax({
+       type : "POST",
+       url : "/path-to/hosting/save",
+       data : JSON.stringify({
+         'myTime': myTime
+       }),
+       dataType : 'json',
+       timeout : 100000,
+       contentType:'application/json',
+       success : function(data) {
+           console.log("SUCCESS: ", data);
+       },
+       error : function(e) {
+           console.log("ERROR: ", e);
+       },
+       done : function(e) {
+           console.log("DONE");
+       }
+    });
   }
+
+  // AJAX call - GET? - to get user's previous best time for UI display
+  // TO DO - Ask Tammy for input on how to set up URL here & what's needed in HomeController...
+  // (need the success function to return the best time)
+  // TO DO - Add a call to this at the beginning of a startGame function
+  function ajaxGetBestTime() {
+//    $.ajax({
+//        method: "GET",
+//        url: "",
+//        dataType: 'json',
+//        timeout : 100000,
+//        success: function (data) {
+//            // either return time or a json object that includes time
+//        },
+//        error : function(e) {
+//              // return null or something...
+//           console.log("ERROR: ", e);
+//        },
+//        done : function(e) {
+//           console.log("DONE");
+//        }
+//    });
+  }
+
 
   // Reset guess array to all zero
   function resetCurGuess() {
@@ -615,7 +646,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   function toggleDuplicates() {
     allowDuplicates = document.getElementById("duplicates").getElementsByTagName("input")[0].checked;
-    console.log('allowDuplicates just set to ' + allowDuplicates);
     startGame();
   }
 
