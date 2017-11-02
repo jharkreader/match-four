@@ -519,25 +519,26 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     var myTime = myBestTime;
     console.log(myTime)
 
-      $.ajax({
-          type : "POST",
-          url : "/path-to/hosting/save",
-          data : JSON.stringify({
-            'myTime': myTime
-          }),
-          dataType : 'json',
-          timeout : 100000,
-          contentType:'application/json',
-          success : function(data) {
-              console.log("SUCCESS: ", data);
-          },
-          error : function(e) {
-              console.log("ERROR: ", e);
-          },
-          done : function(e) {
-              console.log("DONE");
-          }
-      });
+    ajaxBestTime("POST", myTime);
+//      $.ajax({
+//          type : "POST",
+//          url : "/path-to/hosting/save",
+//          data : JSON.stringify({
+//            'myTime': myTime
+//          }),
+//          dataType : 'json',
+//          timeout : 100000,
+//          contentType:'application/json',
+//          success : function(data) {
+//              console.log("SUCCESS: ", data);
+//          },
+//          error : function(e) {
+//              console.log("ERROR: ", e);
+//          },
+//          done : function(e) {
+//              console.log("DONE");
+//          }
+//      });
 
     return userMsg;
 
@@ -557,6 +558,30 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
       return timeMsg;
     }
+  }
+
+  // AJAX call - POST or GET - for user time
+  function ajaxBestTime(type, myTime) {
+       $.ajax({
+           type : type,
+           url : "/path-to/hosting/save",
+           data : JSON.stringify({
+             'myTime': myTime
+           }),
+           dataType : 'json',
+           timeout : 100000,
+           contentType:'application/json',
+           success : function(data) {
+               console.log("SUCCESS: ", data);
+           },
+           error : function(e) {
+               console.log("ERROR: ", e);
+           },
+           done : function(e) {
+               console.log("DONE");
+           }
+       });
+
   }
 
   // Reset guess array to all zero
