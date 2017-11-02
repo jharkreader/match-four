@@ -113,6 +113,16 @@ public class HomeController {
         return "redirect:";
     }
 
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
+    public String findTime(@RequestBody UserTime userTime, HttpSession session){
+        double currentTime = userTime.getTime();
+        if(session.getAttribute("loggedInUser") != null) {
+            User currentUser = (User) session.getAttribute("loggedInUser");
+            String username = currentUser.getName();
+            userData.updateUserTime(username, currentTime);
+        }
+        return "game";
+    }
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
     public String updateTime(@RequestBody UserTime userTime, HttpSession session){
 
