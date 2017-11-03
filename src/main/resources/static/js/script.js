@@ -90,8 +90,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function checkAnswer() {
     var results = {};
     var endTime;
-    console.log('about to check answer and user\'s guess is:');
-    console.log(curGuess);
 
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
     if (curGuess.indexOf(0) !== -1) {
@@ -510,9 +508,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     // Compare time to best time & reset if user improved (best is initialized to -1)
     if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
       myBestTime = timeSeconds;
-      userMsg[3] = 'THAT\'S YOUR BEST TIME TODAY!';
+      userMsg[3] = 'THAT\'S YOUR BEST TIME!';
     } else {
-      userMsg[3] = 'Best time today: ' + timeString(myBestTime) + '.';
+      userMsg[3] = 'Best time: ' + timeString(myBestTime) + '.';
     }
 
     // Send an AJAX call to server with user's best time
@@ -615,7 +613,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   function toggleDuplicates() {
     allowDuplicates = document.getElementById("duplicates").getElementsByTagName("input")[0].checked;
-    console.log('allowDuplicates just set to ' + allowDuplicates);
     startGame();
   }
 
