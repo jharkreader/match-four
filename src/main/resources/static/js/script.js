@@ -502,6 +502,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     mins = Math.floor(timeSeconds/60);
     seconds = Math.round(timeSeconds % 60);
 
+    //ajaxBestTime("GET", timeSeconds);
+    //console.log(timeSeconds)
+
     userMsg[1] = 'You got it in ' + guessCtr + ' guesses';
     userMsg[2] = 'with a time of ' + timeString(timeSeconds) + '!';
 
@@ -560,25 +563,13 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   // AJAX call - POST or GET - for user time
   function ajaxBestTime(type, myTime) {
-       $.ajax({
-           type : type,
-           url : "/path-to/hosting/save",
-           data : JSON.stringify({
-             'myTime': myTime
-           }),
-           dataType : 'json',
-           timeout : 100000,
-           contentType:'application/json',
-           success : function(data) {
-               console.log("SUCCESS: ", data);
-           },
-           error : function(e) {
-               console.log("ERROR: ", e);
-           },
-           done : function(e) {
-               console.log("DONE");
-           }
-       });
+    $.ajax({
+      type: type,
+      url: "/path-to/hosting/save?time=" + myTime,
+      success: function(data) {
+        console.log("Success! Your time is" + myTime)
+      }
+    });
 
   }
 

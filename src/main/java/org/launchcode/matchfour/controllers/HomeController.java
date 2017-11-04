@@ -131,24 +131,31 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
-    public String findTime(@RequestBody UserTime userTime, HttpSession session){
-        double currentTime = userTime.getTime();
+    public String findTime(HttpSession session, @RequestParam UserTime userTime){
+        double myTime = 0;
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
-            String username = currentUser.getName();
-            userData.updateUserTime(username, currentTime);
+            double time = currentUser.getBestTime();
+            UserTime theUserTime = new UserTime();
+            theUserTime.setMyTime(time);
+            System.out.println(time);
+            myTime = userTime.getTime();
         }
+
+        System.out.println(myTime);
         return "game";
     }
-    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
-    public String updateTime(@RequestBody UserTime userTime, HttpSession session){
 
-        double currentTime = userTime.getTime();
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
+    public @ResponseBody
+    String updateTime(@RequestParam("time") double time , HttpSession session){
+
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
             String username = currentUser.getName();
-            userData.updateUserTime(username, currentTime);
+            userData.updateUserTime(username, time);
         }
         return "game";
     }
 }
+
