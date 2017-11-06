@@ -1,7 +1,6 @@
 package org.launchcode.matchfour.controllers;
 
 import org.launchcode.matchfour.models.UserData;
-import org.launchcode.matchfour.models.UserTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +10,9 @@ import org.launchcode.matchfour.models.User;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.xml.ws.http.HTTPBinding;
 
 @Controller
 @RequestMapping("")
@@ -130,15 +129,31 @@ public class HomeController {
         return "redirect:";
     }
 
-    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
-    public String updateTime(@RequestBody UserTime userTime, HttpSession session){
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
+    public @ResponseBody
+    double findTime(HttpSession session, HttpServletResponse response){
+        double bestTime = 0;
 
-        double currentTime = userTime.getTime();
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
             String username = currentUser.getName();
-            userData.updateUserTime(username, currentTime);
+            bestTime = userData.getUserBestTime(username);
+            System.out.println("User's best time:" + bestTime);
+        }
+
+        return bestTime;
+    }
+
+    @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
+    public @ResponseBody
+    String updateTime(@RequestParam("time") double time , HttpSession session){
+
+        if(session.getAttribute("loggedInUser") != null) {
+            User currentUser = (User) session.getAttribute("loggedInUser");
+            String username = currentUser.getName();
+            userData.updateUserTime(username, time);
         }
         return "game";
     }
 }
+

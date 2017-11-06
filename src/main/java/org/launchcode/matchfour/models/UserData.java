@@ -61,4 +61,14 @@ public class UserData {
             }
         }
     }
+
+    public double getUserBestTime(String username) {
+        double time = 0;
+        for (User user : userDao.findAll()) {
+            if (user.getName().equals(username)) {
+                time = user.getBestTime();
+            }
+        }
+        return time;
+    }
 }

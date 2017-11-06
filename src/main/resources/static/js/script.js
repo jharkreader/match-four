@@ -502,20 +502,26 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     mins = Math.floor(timeSeconds/60);
     seconds = Math.round(timeSeconds % 60);
 
+    //ajaxBestTime("GET", timeSeconds);
+    //console.log(timeSeconds)
+
     userMsg[1] = 'You got it in ' + guessCtr + ' guesses';
     userMsg[2] = 'with a time of ' + timeString(timeSeconds) + '!';
 
     // Compare time to best time & reset if user improved (best is initialized to -1)
     if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
       myBestTime = timeSeconds;
-      userMsg[3] = 'THAT\'S YOUR BEST TIME TODAY!';
+      userMsg[3] = 'THAT\'S YOUR BEST TIME!';
     } else {
-      userMsg[3] = 'Best time today: ' + timeString(myBestTime) + '.';
+      userMsg[3] = 'Best time: ' + timeString(myBestTime) + '.';
     }
 
     // Send an AJAX call to server with user's best time
     var myTime = myBestTime;
     console.log(myTime)
+
+    //find users current best time
+    ajaxgetTime();
 
     ajaxBestTime("POST", myTime);
 //      $.ajax({
@@ -558,29 +564,29 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     }
   }
 
-  // AJAX call - POST or GET - for user time
+  // AJAX call - POST - for user time
   function ajaxBestTime(type, myTime) {
-       $.ajax({
-           type : type,
-           url : "/path-to/hosting/save",
-           data : JSON.stringify({
-             'myTime': myTime
-           }),
-           dataType : 'json',
-           timeout : 100000,
-           contentType:'application/json',
-           success : function(data) {
-               console.log("SUCCESS: ", data);
-           },
-           error : function(e) {
-               console.log("ERROR: ", e);
-           },
-           done : function(e) {
-               console.log("DONE");
-           }
-       });
+    $.ajax({
+      type: type,
+      url: "/path-to/hosting/save?time=" + myTime,
+      success: function(data) {
+        console.log("Success! Your time is" + myTime)
+      }
+    });
 
   }
+
+    // AJAX call - GET - for user time
+    function ajaxgetTime() {
+      $.ajax({
+        type: "GET",
+        url: "/path-to/hosting/save",
+        success: function(data) {
+          alert("User's time: " + data)
+        }
+      });
+
+    }
 
   // Reset guess array to all zero
   function resetCurGuess() {
