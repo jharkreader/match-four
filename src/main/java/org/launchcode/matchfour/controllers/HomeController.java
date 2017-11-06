@@ -1,19 +1,23 @@
 package org.launchcode.matchfour.controllers;
 
+import jdk.nashorn.internal.objects.NativeJSON;
 import org.launchcode.matchfour.models.UserData;
 import org.launchcode.matchfour.models.UserTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 
 import org.launchcode.matchfour.models.User;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.xml.ws.http.HTTPBinding;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("")
@@ -131,19 +135,19 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
-    public String findTime(HttpSession session, @RequestParam UserTime userTime){
-        double myTime = 0;
+    public @ResponseBody
+    double findTime(HttpSession session, HttpServletResponse response){
+        double bestTime = 0;
+        String jsonData = "";
+
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
-            double time = currentUser.getBestTime();
-            UserTime theUserTime = new UserTime();
-            theUserTime.setMyTime(time);
-            System.out.println(time);
-            myTime = userTime.getTime();
+            String username = currentUser.getName();
+            bestTime = userData.getUserBestTime(username);
+            System.out.println("User's best time:" + bestTime);
         }
 
-        System.out.println(myTime);
-        return "game";
+        return bestTime;
     }
 
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.POST)
