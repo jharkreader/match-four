@@ -1,12 +1,9 @@
 package org.launchcode.matchfour.controllers;
 
-import jdk.nashorn.internal.objects.NativeJSON;
 import org.launchcode.matchfour.models.UserData;
-import org.launchcode.matchfour.models.UserTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 
 import org.launchcode.matchfour.models.User;
@@ -16,8 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.xml.ws.http.HTTPBinding;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("")
@@ -138,7 +133,6 @@ public class HomeController {
     public @ResponseBody
     double findTime(HttpSession session, HttpServletResponse response){
         double bestTime = 0;
-        String jsonData = "";
 
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
