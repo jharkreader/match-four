@@ -520,6 +520,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     var myTime = myBestTime;
     console.log(myTime)
 
+    //find users current best time
+    ajaxgetTime();
+
     ajaxBestTime("POST", myTime);
 //      $.ajax({
 //          type : "POST",
@@ -561,7 +564,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     }
   }
 
-  // AJAX call - POST or GET - for user time
+  // AJAX call - POST - for user time
   function ajaxBestTime(type, myTime) {
     $.ajax({
       type: type,
@@ -572,6 +575,18 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     });
 
   }
+
+    // AJAX call - GET - for user time
+    function ajaxgetTime() {
+      $.ajax({
+        type: "GET",
+        url: "/path-to/hosting/save",
+        success: function(data) {
+          alert("User's time: " + data)
+        }
+      });
+
+    }
 
   // Reset guess array to all zero
   function resetCurGuess() {
