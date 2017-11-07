@@ -62,8 +62,6 @@ public class HomeController {
 
             session.setAttribute("loggedInUser", user);
             ra.addFlashAttribute("username", "Welcome " + user.getName());
-            System.out.println("Session user: " + session.getAttribute("loggedInUser"));
-            System.out.println("User from database: " + user);
             return "redirect:";
         }
     }
@@ -94,7 +92,6 @@ public class HomeController {
         }
 
         userData.saveNewUser(user);
-        System.out.println("Newly created user: " + user);
         session.setAttribute("loggedInUser", user);
         ra.addFlashAttribute("username", "Welcome " + user.getName());
         return "redirect:";
@@ -124,21 +121,19 @@ public class HomeController {
 
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logOut(HttpSession session) {
-        System.out.println(session.getAttribute("loggedInUser"));
         session.removeAttribute("loggedInUser");
         return "redirect:";
     }
 
     @RequestMapping(value = "/path-to/hosting/save", method = RequestMethod.GET)
     public @ResponseBody
-    double findTime(HttpSession session, HttpServletResponse response){
+    double findTime(HttpSession session){
         double bestTime = 0;
 
         if(session.getAttribute("loggedInUser") != null) {
             User currentUser = (User) session.getAttribute("loggedInUser");
             String username = currentUser.getName();
             bestTime = userData.getUserBestTime(username);
-            System.out.println("User's best time:" + bestTime);
         }
 
         return bestTime;
