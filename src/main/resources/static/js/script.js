@@ -13,7 +13,8 @@
 //    would add 'currentTry' className to the relevant guessing row (& remove from others)
 
 // Global variables - so that Java, etc can access any of these 3 vars...
-var myBestTime = -1;  // keep track of user's best time for current session in seconds
+// TBD: ideally initialize myBestTime to -1. (not sure how to get ajax call to return -1 if not logged in...)
+var myBestTime = 0;  // keep track of user's best time for current session in seconds
 var timeSeconds = 0;  // user's total seconds for most recent game
 var timeString = "";  // string that shows mins:seconds for most recent game
 
@@ -205,6 +206,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     setCurrentTry();
     setCurrentPicker(colorPick);  // really just needed on init
     setHoverColor();
+    ajaxGetBestTime();
   }
 
   // Toggle between showing instructions & showing question mark
@@ -502,47 +504,23 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     mins = Math.floor(timeSeconds/60);
     seconds = Math.round(timeSeconds % 60);
 
-    //ajaxBestTime("GET", timeSeconds);
-    //console.log(timeSeconds)
-
     userMsg[1] = 'You got it in ' + guessCtr + ' guesses';
     userMsg[2] = 'with a time of ' + timeString(timeSeconds) + '!';
 
     // Compare time to best time & reset if user improved (best is initialized to -1)
-    if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
+    //    if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
+    // Compare time to best time & reset if user improved 
+    // (best is initialized to 0 - but if ajax call can return -1 for user not logged in, then
+    // change this code and use -1, making it possible to catch perfect times of 0)
+    if ((myBestTime === 0) || (timeSeconds < myBestTime)) {
       myBestTime = timeSeconds;
+
+      // AJAX call sets best time in db
+      ajaxSetBestTime("POST", myBestTime);
       userMsg[3] = 'THAT\'S YOUR BEST TIME!';
     } else {
       userMsg[3] = 'Best time: ' + timeString(myBestTime) + '.';
     }
-
-    // Send an AJAX call to server with user's best time
-    var myTime = myBestTime;
-    console.log(myTime)
-
-    //find users current best time
-    ajaxgetTime();
-
-    ajaxBestTime("POST", myTime);
-//      $.ajax({
-//          type : "POST",
-//          url : "/path-to/hosting/save",
-//          data : JSON.stringify({
-//            'myTime': myTime
-//          }),
-//          dataType : 'json',
-//          timeout : 100000,
-//          contentType:'application/json',
-//          success : function(data) {
-//              console.log("SUCCESS: ", data);
-//          },
-//          error : function(e) {
-//              console.log("ERROR: ", e);
-//          },
-//          done : function(e) {
-//              console.log("DONE");
-//          }
-//      });
 
     return userMsg;
 
@@ -564,8 +542,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     }
   }
 
-  // AJAX call - POST - for user time
-  function ajaxBestTime(type, myTime) {
+  // AJAX call - POST - for setting user's best time
+  // Java function will store new time if it's user's best
+  function ajaxSetBestTime(type, myTime) {
     $.ajax({
       type: type,
       url: "/path-to/hosting/save?time=" + myTime,
@@ -576,17 +555,21 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   }
 
-    // AJAX call - GET - for user time
-    function ajaxgetTime() {
-      $.ajax({
-        type: "GET",
-        url: "/path-to/hosting/save",
-        success: function(data) {
-          alert("User's time: " + data)
-        }
-      });
+  // AJAX call - GET
+  // Gets users previous best time, for comparison
+  function ajaxGetBestTime() {
+    $.ajax({
+      type: "GET",
+      url: "/path-to/hosting/save",
+      success: function(data) {
 
-    }
+        // Only change myBestTime if user is logged in (ajax returns 0 if not logged in)
+        if (data !== 0) {
+          myBestTime = data;
+        }
+      }
+    });
+  }
 
   // Reset guess array to all zero
   function resetCurGuess() {
@@ -610,9 +593,8 @@ var timeString = "";  // string that shows mins:seconds for most recent game
           index = Math.floor(Math.random() * pool.length);
           secret[i] = pool[index];
           pool.splice(index, 1);
-          }
+         }
     }
-
   }
 
   function toggleDuplicates() {
