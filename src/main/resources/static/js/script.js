@@ -94,10 +94,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   $('#closeUserMsg2').on('click', function() {
     handleUserMsg2();
   });
-// temp for testing only
-//  $('#pick_6').on('click', function() {
-//    makeBoxBackground();
-//  });
 
 
   /***********************************************************************
@@ -109,6 +105,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function checkAnswer() {
     var results = {};
     var endTime;
+    var userMsg;
 
     // If any of elements is 0, alert user that a color must be chosen for all 4 slots before checking & return
     if (curGuess.indexOf(0) !== -1) {
@@ -144,8 +141,10 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
       // Otherwise show user their time info for correct answer
       if (results.pass) {
-makeBoxBackground();
-        showTimeInfo();
+
+        userMsg = getSuccessMsg();  // Returns array for 4 line message
+        console.log(userMsg);
+        makeBoxBackground(userMsg);
 
       // Otherwise if user did not get correct answer, set the correct colors in 4 slots at top & display
       } else {
@@ -424,30 +423,30 @@ makeBoxBackground();
   }
 
     //  Set & show time info for correct answer
-  function showTimeInfo() {
-    var youGotIt = document.getElementById("youGotIt");
-    var userMsg = getSuccessMsg();  // Returns array for 4 line message
-    var para;
-    var content;
-    var msgDiv = document.getElementById("userTime");
-    var child = msgDiv.getElementsByTagName("p");
-
-    // Remove any existing <p> and attach new <p> el to userMsg div
-    for (var i = (child.length - 1); i >=0; i--) {
-      msgDiv.removeChild(child[i]);
-    }
-
-    // Create & attach a <p> element with user msg
-    for (var i = 0; i < userMsg.length; i++) {
-      para = document.createElement("p");
-      content = document.createTextNode(userMsg[i]);
-      para.appendChild(content);
-      msgDiv.appendChild(para);
-    }
-
-    // Assign 'showSolution' class to user's time message
-    youGotIt.classList.add("showSolution");
-  }
+//  function showTimeInfo() {
+//    var youGotIt = document.getElementById("youGotIt");
+//    var userMsg = getSuccessMsg();  // Returns array for 4 line message
+//    var para;
+//    var content;
+//    var msgDiv = document.getElementById("userTime");
+//    var child = msgDiv.getElementsByTagName("p");
+//
+//    // Remove any existing <p> and attach new <p> el to userMsg div
+//    for (var i = (child.length - 1); i >=0; i--) {
+//      msgDiv.removeChild(child[i]);
+//    }
+//
+//    // Create & attach a <p> element with user msg
+//    for (var i = 0; i < userMsg.length; i++) {
+//      para = document.createElement("p");
+//      content = document.createTextNode(userMsg[i]);
+//      para.appendChild(content);
+//      msgDiv.appendChild(para);
+//    }
+//
+//    // Assign 'showSolution' class to user's time message
+//    youGotIt.classList.add("showSolution");
+//  }
 
 
   /***********************************************************************************
@@ -639,9 +638,8 @@ makeBoxBackground();
     $('#cover').removeClass('coverItUp');
   }
 
-  function makeBoxBackground() {
+  function makeBoxBackground(userMsg) {
     var boxCount = 100;
-    var msg = 'highlighted message...';
 
     $('#userMsg2').removeClass('hidden-xs-up');
     document.activeElement.blur();
@@ -649,8 +647,11 @@ makeBoxBackground();
     // Bring sheer overlay to front while displaying message
     $('#cover').addClass('coverItUp');
 
-    // Could add conditional here to vary msg
-    $('#msg_moveUp').empty().append(msg);
+    // Append user message to userMsg2 div
+    $('#msg_0').empty().append(userMsg[0]);
+    $('#msg_1').empty().append(userMsg[1]);
+    $('#msg_2').empty().append(userMsg[2]);
+    $('#msg_3').empty().append(userMsg[3]);
 
     // Function animates boxes
     makeBoxes(boxCount, 20, '3s');
@@ -711,7 +712,6 @@ makeBoxBackground();
         // Fade out & remove all boxes
         window.clearInterval(boxTimer);
         boxTimer = window.setTimeout(function() {
-//        $('.box').css({animation: 'none', opacity: .45});
         $('.box').fadeOut('slow', function() {
             $('#boxContainer').empty();
             window.clearInterval(boxTimer);

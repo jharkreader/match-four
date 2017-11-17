@@ -590,16 +590,20 @@ color: rgba(0,0,0,.9);
     z-index: 17;
 }
 .msg { color:rgba(255, 255, 255, .8); }
-.msg h3, .msg h2 {
+.msg h3, .msg h2, .msg h1 {
     font-weight: 800;
     text-align: center;
 }
-.msg h2 { color:deeppink; }
-.msg h4 {
-  margin-top: 35px;
-  text-align: center;
+.msg h2 {
+  color:deeppink;
+  font-size: 2em;
 }
-.msg h3 { padding-top: 1em; }
+.msg h1 {
+  margin-top: 35px;
+  font-family: 'Shrikhand', cursive;
+  font-size: 4em;
+}
+/*.msg h3 { padding-top: 1em; }*/
 
 /*Adapted from Mark Senff's example http://codepen.io/senff/pen/fqmFo*/
 .closeBoxesSample {
