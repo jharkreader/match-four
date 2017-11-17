@@ -11,448 +11,493 @@
 </head>
 
 <body id="main">
-<!--This responsive navbar template from https://v4-alpha.getbootstrap.com/components/navbar/
-The built-in Bootstrap classes automatically toggle
-a drop down menu on smaller devices.-->
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">MatchFour</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="myMenu nav-item nav-link" href="logout" id="logOut" th:if="${username}">Logout</a>
-            <a class="myMenu nav-item nav-link" href="about" id="aboutDevs">About</a>
-            <a class="myMenu nav-item nav-link" href="#" id="newGame">New Game</a>
-            <p th:unless="${username}">Want to track your best time? <a class="myMenu nav-item nav-link" href="signUp">Sign up</a> or<a class="myMenu nav-item nav-link" href="login"> Log in</a></p>
-            <p th:text="${username}" id="userName" name="username">userNameHere</p>
-        </div>
-    </div>
-</nav>
 
-<!--Bootstrap's 'row' class puts 'palette' div and 'board' div side-by-side-->
-<div class="row">
+<div class="background">
 
-    <!--      Color picker section-->
-    <!--  Note classes with 'fa' prefix are all font-awesome icons-->
-    <div class="palette" id ="colorPalette">
-        <div class="picker" id="pick_1">
-            <i class="fa fa-tint fa-4x"></i>
+    <!--This responsive navbar template from https://v4-alpha.getbootstrap.com/components/navbar/
+    The built-in Bootstrap classes automatically toggle
+    a drop down menu on smaller devices.-->
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">MatchFour</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="myMenu nav-item nav-link" href="logout" id="logOut" th:if="${username}">Logout</a>
+                <a class="myMenu nav-item nav-link" href="about" id="aboutDevs">About</a>
+                <a class="myMenu nav-item nav-link" href="#" id="newGame">New Game</a>
+                <p th:unless="${username}">Want to track your best time? <a class="myMenu nav-item nav-link" href="signUp">Sign up</a> or<a class="myMenu nav-item nav-link" href="login"> Log in</a></p>
+                <p th:text="${username}" id="userName" name="username">userNameHere</p>
+            </div>
         </div>
-        <div class="picker" id="pick_2">
-            <i class="fa fa-tint fa-4x"></i>
-        </div>
-        <div class="picker" id="pick_3">
-            <i class="fa fa-tint fa-4x"></i>
-        </div>
-        <div class="picker" id="pick_4">
-            <i class="fa fa-tint fa-4x"></i>
-        </div>
-        <div class="picker" id="pick_5">
-            <i class="fa fa-tint fa-4x"></i>
-        </div>
-        <div class="picker" id="pick_6">
-            <i class="fa fa-tint fa-4x"></i>
-        </div>
-        <div id="duplicates" class="dupl">
-            <input type="checkbox" /><span class="hidden-sm-down"> Allow duplicate colors in solutions</span><small class="hidden-md-up">Duplicates OK</small><br />
-        </div>
-    </div>
+    </nav>
 
-    <!--      Game board section-->
-    <!--      TBD: Best to set up template for this to avoid the repetition-->
-    <div class="board" id="gameBoard">
-        <div class="guess" id="correctAnswer">
-            <div class="playHere">
-                <i class="fa fa-unlock-alt fa-2x"></i>
+    <!--Bootstrap's 'row' class puts 'palette' div and 'board' div side-by-side-->
+    <div class="row">
+
+        <!--      Color picker section-->
+        <!--  Note classes with 'fa' prefix are all font-awesome icons-->
+        <div class="palette" id ="colorPalette">
+            <div class="picker" id="pick_1">
+                <i class="fa fa-tint fa-4x"></i>
             </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div id="userMsg"></div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+            <div class="picker" id="pick_2">
+                <i class="fa fa-tint fa-4x"></i>
+            </div>
+            <div class="picker" id="pick_3">
+                <i class="fa fa-tint fa-4x"></i>
+            </div>
+            <div class="picker" id="pick_4">
+                <i class="fa fa-tint fa-4x"></i>
+            </div>
+            <div class="picker" id="pick_5">
+                <i class="fa fa-tint fa-4x"></i>
+            </div>
+            <div class="picker" id="pick_6">
+                <i class="fa fa-tint fa-4x"></i>
+            </div>
+            <div id="duplicates" class="dupl">
+                <input type="checkbox" /><span class="hidden-sm-down"> Allow duplicate colors in solutions</span><small class="hidden-md-up">Duplicates OK</small><br />
             </div>
         </div>
-        <div class="guess" id="youGotIt">
-            <div class="solution" id="userTime"></div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-        <div class="guess" id="guess_8">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
+
+        <!--      Game board section-->
+        <!--      TBD: Best to set up template for this to avoid the repetition-->
+        <div class="board" id="gameBoard">
+            <div class="guess" id="correctAnswer">
+                <div class="playHere">
+                    <i class="fa fa-unlock-alt fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div id="userMsg"></div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
                 </div>
             </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_7">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
+            <div class="guess" id="youGotIt">
+                <div class="solution" id="userTime"></div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
                 </div>
             </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_6">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
+            <div class="guess" id="guess_8">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
                 </div>
-            </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_5">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_4">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_3">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_2">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-
-        <div class="guess" id="guess_1">
-            <div class="playHere">
-                <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
-            </div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="pegs">
-                <div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="halfHeight">
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                        <div class="pegSlot">
-                            <div class="peg">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="checkMark" title="Check this solution...">
-                <a><i class="fa fa-check fa-3x"></i></a>
-            </div>
-            <div class="nextGame" title="Play a new game...">
-                <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="openIt" id="justQuestionMark">
-        <a class="help" id="instructionsShow" title="Show instructions"><i class="fa fa-question-circle fa-2x"></i></a>
-    </div>
-    <div class="instructions showThis" id="gameDirections">
-        <a class="close" id="instructionsHide"><i class="fa fa-window-close fa-2x"></i></a>
-        <h3 align="center">How to Play:</h3>
-        <ul>
-            <li>The computer has challenged you to MatchFour colors in a row!</li>
-            <li>Click to select a color.</li>
-            <li>Click on a box within the first row (your currently selected color will show before you make your guess).</li>
-            <li>Fill in all four boxes with your guesses, then click <i class="fa fa-check fa-2x" style="color: limegreen;"></i> to confirm your guess.</li>
-            <li>Four circles will display next to your confirmed guess:
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
                 <div class="pegs">
-                    <div class="pegSample">
-                        <div>
-                            <div class="pegSlot">
-                                <div class="peg blackPeg">
-                                </div>
-                            </div>
-                            <div class="pegDescription">
-                                <p>= Correct<span>&nbsp;Slot and Color</span></p>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="pegSlot">
-                                <div class="peg whitePeg">
-                                </div>
-                            </div>
-                            <div class="pegDescription">
-                                <p>= <span>Correct Color,&nbsp;</span>Wrong Slot</p>
-                            </div>
-                        </div>
-                        <div>
+                    <div>
+                        <div class="halfHeight">
                             <div class="pegSlot">
                                 <div class="peg">
                                 </div>
                             </div>
-                            <div class="pegDescription">
-                                <p>= Incorrect<span>&nbsp;Color</span></p>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </li>
-            <li>Correctly guess all four colors to win!</li>
-            <li>**BONUS** For a bigger challenge, select "allow for  duplicates" under the color palette!</li>
-        </ul>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_7">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_6">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_5">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_4">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_3">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_2">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div class="guess" id="guess_1">
+                <div class="playHere">
+                    <i class="fa fa-hand-pointer-o fa-rotate-90 fa-2x"></i>
+                </div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="pegs">
+                    <div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="halfHeight">
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                            <div class="pegSlot">
+                                <div class="peg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkMark" title="Check this solution...">
+                    <a><i class="fa fa-check fa-3x"></i></a>
+                </div>
+                <div class="nextGame" title="Play a new game...">
+                    <a><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="openIt" id="justQuestionMark">
+            <a class="help" id="instructionsShow" title="Show instructions"><i class="fa fa-question-circle fa-2x"></i></a>
+        </div>
+        <div class="instructions showThis" id="gameDirections">
+            <a class="close" id="instructionsHide"><i class="fa fa-window-close fa-2x"></i></a>
+            <h3 align="center">How to Play:</h3>
+            <ul>
+                <li>The computer has challenged you to MatchFour colors in a row!</li>
+                <li>Click to select a color.</li>
+                <li>Click on a box within the first row (your currently selected color will show before you make your guess).</li>
+                <li>Fill in all four boxes with your guesses, then click <i class="fa fa-check fa-2x" style="color: limegreen;"></i> to confirm your guess.</li>
+                <li>Four circles will display next to your confirmed guess:
+                    <div class="pegs">
+                        <div class="pegSample">
+                            <div>
+                                <div class="pegSlot">
+                                    <div class="peg blackPeg">
+                                    </div>
+                                </div>
+                                <div class="pegDescription">
+                                    <p>= Correct<span>&nbsp;Slot and Color</span></p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="pegSlot">
+                                    <div class="peg whitePeg">
+                                    </div>
+                                </div>
+                                <div class="pegDescription">
+                                    <p>= <span>Correct Color,&nbsp;</span>Wrong Slot</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="pegSlot">
+                                    <div class="peg">
+                                    </div>
+                                </div>
+                                <div class="pegDescription">
+                                    <p>= Incorrect<span>&nbsp;Color</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>Correctly guess all four colors to win!</li>
+                <li>**BONUS** For a bigger challenge, select "allow for  duplicates" under the color palette!</li>
+            </ul>
+        </div>
     </div>
 </div>
 
+<!--This section is for the modal that displays when game is over  -->
+<!--  https://v4-alpha.getbootstrap.com/components/modal/#how-it-works-->
+<!--  see https://v4-alpha.getbootstrap.com/components/modal/#examples for more tips on using this-->
+<!--
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">.col-3</div>
+      <div class="col-3">.col-3</div>
+      <div class="col-3">.col-3</div>
+      <div class="col-3">.col-3</div>
+    </div>
+    <div>
+      <p>Stuff about results...</p>
+    </div>
+  </div>
+</div>
+-->
+
+<!--RANDOM BOXES ANIMATION: Called when game is over-->
+<!--Uses @keyframes; includes sheer overlay + boxes + modal with message-->
+
+<!-- sheer overlay brought to front with z-index when needed -->
+<div class="sheer" id="cover"></div>
+
+<!-- animated boxes brought to front with z-index-->
+<div id="boxContainer" class="animBoxes"></div>
+
+<!-- This div hidden except when message is displayed -->
+<div class="msg hidden-xs-up" id="userMsg2">
+    <div id="closeUserMsg2" class="closeBoxesSample" title="Close"><i class="fa fa-times"></i></div>
+    <h4 id="msg_user">Message goes here...</h4>
+    <br/>
+    <h3 id="msg_correct">more info...</h3>
+    <br/>
+    <h2 id="msg_moveUp">Highlighted note...</h2>
+</div>
+
+
+
 <!--  note bootstrap 3.3.7 doesn't have navbar and 4.0.0-beta not working for navbar-->
 <!--  also: jquery included here because full bootstrap functionality requires jquery-->
+<!--  jquery also used for animation-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <script src="js/script.js"></script>
