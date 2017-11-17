@@ -102,7 +102,15 @@ body {
     overflow: auto;
     overflow-x: hidden;
 }
-
+.background {
+    background-color: #42444b;
+    left: 0;
+    min-height: 100%;
+    min-width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
 
 
 /*********************************************************
@@ -161,7 +169,7 @@ color: rgba(0,0,0,.9);
   text-align: center;
 }
 .palette .picker:hover {
-  opacity: .7;
+/*  opacity: .7;*/
 }
 
 /*Using colors 0 - 5 to fit well with arrays for java*/
@@ -370,7 +378,6 @@ color: rgba(0,0,0,.9);
   visibility:visible;
 }
 .board .showSolution p {
-/*  color: white;*/
   text-align:center;
   line-height:1.4;
   margin-bottom: 0;
@@ -379,7 +386,6 @@ color: rgba(0,0,0,.9);
   display: inline-block;
 }
 .showSolution .playHere i {
-/*  color: white;*/
   padding-right: 2vh;
 }
 
@@ -505,8 +511,116 @@ color: rgba(0,0,0,.9);
   font-weight: 800;
 }
 
+
 /*********************************************************
- *  8. MEDIA
+ *  8. ANIMATION FOR COLOR PICKER
+ ********************************************************/
+
+.picker:hover {
+    animation-name: wiggle;
+    animation-duration: .5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    transform-origin: top;
+}
+
+/* The animation code */
+@keyframes wiggle {
+    0%   {transform: rotate(0deg);}
+    25%   {transform: rotate(15deg);}
+    50%   {transform: rotate(0deg);}
+    75%   {transform: rotate(-15deg);}
+    100%   {transform: rotate(0deg);}
+}
+
+/*******************************************************
+ * 9. ANIMATION FOR RANDOM BOXES (when game is over)
+ ******************************************************/
+
+@keyframes growSpin {
+    0% {
+      opacity: 0;
+    }
+    40% {
+      opacity: .8;
+      transform: rotate(225deg);
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(90deg);
+    }
+}
+.animBoxes { z-index: 25; }
+.box {
+    opacity: 0;
+    position: fixed;
+    z-index: 16;
+}
+.coverItUp {
+    background-color: rgba(0,0,0,0.7);
+    z-index: 15 !important;
+}
+.sheer {
+    background-color: rgba(0,0,0,0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -10;
+}
+
+.msg {
+    background-color: #121824;
+    border: 1px solid #d0d0e7;
+}
+.msg {
+    font-weight: 400;
+    font-size: 100%;
+    left: 50%;
+    margin: auto;
+    padding: 1em;
+    position:absolute;
+    text-align: center;
+    top: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 17;
+}
+.msg { color:rgba(255, 255, 255, .8); }
+.msg h3, .msg h2 {
+    font-weight: 800;
+    text-align: center;
+}
+.msg h2 { color:deeppink; }
+.msg h4 {
+  margin-top: 35px;
+  text-align: center;
+}
+.msg h3 { padding-top: 1em; }
+
+/*Adapted from Mark Senff's example http://codepen.io/senff/pen/fqmFo*/
+.closeBoxesSample {
+	background: #de0000;
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 30px;
+	font-weight: normal;
+	height: 33px;
+	line-height: 30px;
+	position: absolute;
+	right: 1px;
+	text-align: center;
+	top: 1px;
+	width: 40px;
+}
+
+
+
+/*********************************************************
+ *  10. MEDIA
  ********************************************************/
 
 /*

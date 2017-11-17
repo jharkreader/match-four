@@ -1,3 +1,6 @@
+// NOTE: Most of this code is intentionally done in plain JavaScript
+// but code related to end-of-game animation is done in jQuery (for simplicity).
+
 // Class names that code is swapping in & out:
 //    'currentPick': to reflect selected color
 //    'hoverColor_1' thru 'hoverColor_6': to control the onhover colors in the game slots
@@ -28,6 +31,11 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     var curGuess = [0, 0, 0, 0];  // user's guess at current guess level
     var allowDuplicates = false;
     var startTime;
+    var boxTimer = -1;  //for animation
+    var COLORS = ["#d31b1b", "#fa7808", "#ffff3a", "#27be27",
+                  "#3333b2", "#be32be"];  //for animation
+    var SIZES = ["1em, 1.5em", "2em", "2.5em", "3em"];  //for animation
+
 
   /******************************************************************
    * EVENT LISTENERS
@@ -82,6 +90,16 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   document.getElementById("instructionsShow").addEventListener("click", toggleInstructions);
   document.getElementById("instructionsHide").addEventListener("click", toggleInstructions);
 
+  // Add event listener to close user message at end of game
+  $('#closeUserMsg2').on('click', function() {
+    handleUserMsg2();
+  });
+// temp for testing only
+//  $('#pick_6').on('click', function() {
+//    makeBoxBackground();
+//  });
+
+
   /***********************************************************************
    * FUNCTIONS CALLED BY USER EVENTS  (start new game, select color, assign color to a slot, check answer)
    **********************************************************************/
@@ -126,7 +144,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
       // Otherwise show user their time info for correct answer
       if (results.pass) {
-
+makeBoxBackground();
         showTimeInfo();
 
       // Otherwise if user did not get correct answer, set the correct colors in 4 slots at top & display
@@ -225,9 +243,14 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
   /*********************************************************************************
    * OTHER HELPER FUNCTIONS (called by the main fcns above, to avoid repetition)
+   *      VIEW section relates to DOM, class settings, etc. EXCEPT for animation
+   *      MODEL section relates to game logic, calcs and comparisons
+   *      ANIMATION section contains functions related to end of game display
    ********************************************************************************/
 
-  /***** VIEW:  these fcns are related to the DOM view/display, class settings, etc.****/
+  /***********************************************************************************
+   * VIEW:  these fcns are related to the DOM view/display, class settings, etc.
+   ***********************************************************************************/
 
   // Clear one slot in gameboard
   function clearOneSlot(slot) {
@@ -427,8 +450,9 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   }
 
 
-  /***** MODEL: these are related to the game logic, calcs, comparisons, etc.****/
-
+  /***********************************************************************************
+   * MODEL: these are related to the game logic, calcs, comparisons, etc.
+   ***********************************************************************************/
 
   // Compare secret to curGuess and return obj or array with #black & # white
   // Use temp arrays to do this so that we can flip elements to -1 if match found -
@@ -509,7 +533,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
     // Compare time to best time & reset if user improved (best is initialized to -1)
     //    if ((myBestTime === -1) || (timeSeconds < myBestTime)) {
-    // Compare time to best time & reset if user improved 
+    // Compare time to best time & reset if user improved
     // (best is initialized to 0 - but if ajax call can return -1 for user not logged in, then
     // change this code and use -1, making it possible to catch perfect times of 0)
     if ((myBestTime === 0) || (timeSeconds < myBestTime)) {
@@ -601,6 +625,102 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     allowDuplicates = document.getElementById("duplicates").getElementsByTagName("input")[0].checked;
     startGame();
   }
+
+
+  /***********************************************************************************
+   * ANIMATION: these functions called at end of game, to display msg and animation
+   * This portion of code uses jQuery
+   ***********************************************************************************/
+
+  function handleUserMsg2() {
+    $('#userMsg2').addClass('hidden-xs-up');
+
+    // Send sheer overlay to back
+    $('#cover').removeClass('coverItUp');
+  }
+
+  function makeBoxBackground() {
+    var boxCount = 100;
+    var msg = 'highlighted message...';
+
+    $('#userMsg2').removeClass('hidden-xs-up');
+    document.activeElement.blur();
+
+    // Bring sheer overlay to front while displaying message
+    $('#cover').addClass('coverItUp');
+
+    // Could add conditional here to vary msg
+    $('#msg_moveUp').empty().append(msg);
+
+    // Function animates boxes
+    makeBoxes(boxCount, 20, '3s');
+  }
+
+  /*
+   * This function displays boxes on the screen of various sizes & colors.
+   * 'span' indicates MS time that passes from one box to next and 'duration'
+   * is the # seconds (as string, i.e. '2s') that passes before all boxes are
+   * cleared from screen.  Note that 'duration' should exceed
+   * 'span' * 'boxCount' otherwise not all boxes will have time to display.
+   */
+  function makeBoxes(boxCount, span, duration) {
+    var animString = 'growSpin ' + duration + ' 1';
+    var i = 0;
+    var numSizes = SIZES.length;
+    var numColors = COLORS.length;
+    var boxHTML = '<div class="box"></div>';
+    var c;
+    var s;
+    var l;
+    var t;
+
+    // Run box animation
+    boxTimer = window.setInterval(boxFlash, span);
+
+    // Animates box, various sizes/colors
+    function boxFlash() {
+
+      if (i < boxCount) {
+
+        // Add a div for a box
+        if ($('#boxContainer').is(':empty')){
+            $('#boxContainer').html(boxHTML);
+        } else {
+            $('#boxContainer div:last').after(boxHTML);
+        }
+
+        // Use randoms to pick color, size & location for box
+        c = Math.floor(Math.random()*numColors);
+        s = Math.floor(Math.random()*numSizes);
+        l = Math.floor(Math.random()*90);
+        t = Math.floor(Math.random()*90);
+
+        // Assign properties to box & animate
+        $( '.box').last().css({
+            width: SIZES[s],
+            height: SIZES[s],
+            backgroundColor: COLORS[c],
+            left: l + '%',
+            top: t + '%',
+            animation: animString
+        });
+
+        i++;
+      } else {
+
+        // Fade out & remove all boxes
+        window.clearInterval(boxTimer);
+        boxTimer = window.setTimeout(function() {
+//        $('.box').css({animation: 'none', opacity: .45});
+        $('.box').fadeOut('slow', function() {
+            $('#boxContainer').empty();
+            window.clearInterval(boxTimer);
+        });},3000);
+      }
+    }
+  }
+
+
 
   startGame();
 })();
