@@ -71,39 +71,22 @@ form.login {
 .login a:hover {
   color:#28c2fa;
 }
-body {
-  background-color: #42444b!important;
-
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-
-  /*  could use jpeg background instead of bg-color */
-/*  background: url("../img/wood3.jpg") no-repeat center center fixed; */
-
-/*   For textured background */
-/*
-  background-color: #2b2b2c;
-  background-image: url("../images/asfalt-light.png");
-  -webkit-background-size: repeat;
-  -moz-background-size: repeat;
-  -o-background-size: repeat;
-  background-size: repeat;
-*/
-}
-
 body, html {
     height: 100%;
     line-height: 1.8;
     box-sizing:border-box;
 }
 body {
+    background-color: #2f3444;
     overflow: auto;
     overflow-x: hidden;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 .background {
-    background-color: #42444b;
+    background-color: #2f3444;
     left: 0;
     min-height: 100%;
     min-width: 100%;
