@@ -219,14 +219,16 @@ color: rgba(0,0,0,.9);
 }
 .board .guess:first-child .slot {
   vertical-align:middle;
-  border-radius:50%;
-  border-width: 2px;
+/*  border-radius:50%;*/
+  height: 15px;
+  border: none;
+/*  border-width: 2px;*/
 }
-.board .slot, .board .pegs, .board .checkMark, .board .nextGame {
+.slot, .board .pegs, .board .checkMark, .board .nextGame {
   display: inline-block;
   vertical-align: middle;
 }
-.board .slot, .board .pegs, .board .nextGame {
+.slot, .board .pegs, .board .nextGame {
   max-height: 150px;
   max-width: 150px;
 }
@@ -239,7 +241,7 @@ color: rgba(0,0,0,.9);
   margin: 8px auto;
   text-align: left;
 }
-.board .slot {
+.slot {
   border: 1px solid white;
   margin: auto;
 }
@@ -365,10 +367,12 @@ color: rgba(0,0,0,.9);
 .board .currentTry .playHere {
   color:white;   /* changes from transparent to white so it shows up */
 }
-.board .currentTry .pegs, .board .guess:first-child, .board .guess:nth-child(2) {
+/*.board .currentTry .pegs, .board .guess:first-child, .board .guess:nth-child(2) {*/
+.board .currentTry .pegs, .board .guess:first-child {
   display: none;  /* hide pegs & hide solution */
 }
-.board .currentTry .checkMark, .board .guess:first-child.showSolution, .board .guess:nth-child(2).showSolution {
+/*.board .currentTry .checkMark, .board .guess:first-child.showSolution, .board .guess:nth-child(2).showSolution {*/
+.board .currentTry .checkMark, .board .guess:first-child.showSolution {
   display: inline-block;  /* show check mark & show solution*/
 }
 .board .currentTry .slot {
@@ -579,6 +583,7 @@ color: rgba(0,0,0,.9);
     font-size: 100%;
     left: 50%;
     margin: auto;
+    min-width: 150px;
     padding: 1em;
     position:absolute;
     text-align: center;
@@ -596,14 +601,14 @@ color: rgba(0,0,0,.9);
 }
 .msg h2 {
   color:deeppink;
+  font-family: 'Luckiest+Guy', cursive;
   font-size: 2em;
 }
 .msg h1 {
   margin-top: 35px;
-  font-family: 'Shrikhand', cursive;
-  font-size: 4em;
+  font-family: 'Luckiest+Guy', cursive;
+  font-size: 3em;
 }
-/*.msg h3 { padding-top: 1em; }*/
 
 /*Adapted from Mark Senff's example http://codepen.io/senff/pen/fqmFo*/
 .closeBoxesSample {
@@ -654,14 +659,13 @@ color: rgba(0,0,0,.9);
   .instructions.showThis, .openIt.showThis {
     display: none;
   }
-  .board .slot, .board .pegs {
+  .slot, .board .pegs {
     width: 4vh;
     height: 4vh;
   }
   .palette, .board {
     padding: 2vh 1vh;
   }
-/*  .board .guess:nth-child(2) p {*/
   .board .showSolution p {
     width:22vh;
     font-size: 80%;
@@ -710,7 +714,7 @@ color: rgba(0,0,0,.9);
   .board {
     width: 70%;
   }
-  .board .slot, .board .pegs {
+  .slot, .board .pegs {
     width: 8vh;
     height: 8vh;
   }
@@ -772,7 +776,7 @@ color: rgba(0,0,0,.9);
   .pegSample span {
     display: none;
   }
-  .board .slot, .board .pegs {
+  .slot, .board .pegs {
     width: 9vh;
     height: 9vh;
   }

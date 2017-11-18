@@ -90,9 +90,14 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   document.getElementById("instructionsShow").addEventListener("click", toggleInstructions);
   document.getElementById("instructionsHide").addEventListener("click", toggleInstructions);
 
-  // Add event listener to close user message at end of game
+  // Add event listeners for end of game
+  // For won game:
   $('#closeUserMsg2').on('click', function() {
     handleUserMsg2();
+  });
+  // For lost game:
+  $('#closeUserMsg1').on('click', function() {
+    handleUserMsg1();
   });
 
 
@@ -143,12 +148,13 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       if (results.pass) {
 
         userMsg = getSuccessMsg();  // Returns array for 4 line message
-        console.log(userMsg);
         makeBoxBackground(userMsg);
 
       // Otherwise if user did not get correct answer, set the correct colors in 4 slots at top & display
       } else {
 
+        userMsg = getErrorMsg(results.pegArray.length);
+        makeErrorMsg(userMsg);
         showSolution(results.pegArray.length);
       }
 
@@ -289,19 +295,13 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     });
   }
 
-  //  Removes classname from 'correctAnswer'  & 'youGotIt' rows so they're hidden
+  //  Removes classname from 'correctAnswer' row so it's hidden
   function removeSolution() {
     var answer= document.getElementById("correctAnswer");
-    var youGotIt = document.getElementById("youGotIt");
 
     if (answer.classList.contains("showSolution")) {
       answer.classList.remove("showSolution");
     }
-
-    if (youGotIt.classList.contains("showSolution")) {
-      youGotIt.classList.remove("showSolution");
-    }
-
   }
 
   // Remove ALL hoverColor_ classes from one or more guess rows (for any 'pick' value)
@@ -391,62 +391,22 @@ var timeString = "";  // string that shows mins:seconds for most recent game
     }
   }
 
-  //  Set info needed & show final answer
+  //  Set color solution in two places - user message & at top of game
   function showSolution(n) {
     var answer = document.getElementById("correctAnswer");
+    var answerMsg = document.getElementById("correctAnswerMsg");
     var slots = answer.getElementsByClassName("slot");
-    var userMsg = getErrorMsg(n);
-    var para;
-    var content;
-    var msgDiv = document.getElementById("userMsg");
-    var child = msgDiv.getElementsByTagName("p");
+    var slotsMsg = answerMsg.getElementsByClassName("slot");
 
     // Assign solution colors
     for (var i = 0; i < secret.length ; i++) {
       slots[i].classList.add("bgColor_" + secret[i]);
+      slotsMsg[i].classList.add("bgColor_" + secret[i]);
     }
-
-    // Remove any existing <p> and attach new <p> el to userMsg div
-    if (child.length > 0) {
-      msgDiv.removeChild(child[0]);
-    }
-
-    // Create & attach a <p> element with user msg
-    para = document.createElement("p");
-    content = document.createTextNode(userMsg);
-    para.appendChild(content);
-    msgDiv.appendChild(para);
-
 
     // Assign 'showSolution' class to solution row
     answer.classList.add("showSolution");
   }
-
-    //  Set & show time info for correct answer
-//  function showTimeInfo() {
-//    var youGotIt = document.getElementById("youGotIt");
-//    var userMsg = getSuccessMsg();  // Returns array for 4 line message
-//    var para;
-//    var content;
-//    var msgDiv = document.getElementById("userTime");
-//    var child = msgDiv.getElementsByTagName("p");
-//
-//    // Remove any existing <p> and attach new <p> el to userMsg div
-//    for (var i = (child.length - 1); i >=0; i--) {
-//      msgDiv.removeChild(child[i]);
-//    }
-//
-//    // Create & attach a <p> element with user msg
-//    for (var i = 0; i < userMsg.length; i++) {
-//      para = document.createElement("p");
-//      content = document.createTextNode(userMsg[i]);
-//      para.appendChild(content);
-//      msgDiv.appendChild(para);
-//    }
-//
-//    // Assign 'showSolution' class to user's time message
-//    youGotIt.classList.add("showSolution");
-//  }
 
 
   /***********************************************************************************
@@ -498,13 +458,13 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   function getErrorMsg(n) {
     var userMsg = '';
 
-    // Give different error messages, depending on how many pegs matched
+    // Give different error messages, depending on how many colors matched
     if (n > 3) {
       userMsg += "YOU WERE SO CLOSE!";
     } else if (n > 2) {
       userMsg += "Almost!";
     } else {
-      userMsg += "";
+      userMsg += "Keep practicing!";
     }
 
     return userMsg;
@@ -627,8 +587,37 @@ var timeString = "";  // string that shows mins:seconds for most recent game
 
 
   /***********************************************************************************
-   * ANIMATION: these functions called at end of game, to display msg and animation
+   * ANIMATION/MESSAGE FOR GAME LOST: these functions called if user runs out of tries.
    * This portion of code uses jQuery
+   ***********************************************************************************/
+
+  function handleUserMsg1() {
+    $('#userMsg1').addClass('hidden-xs-up');
+
+    // Send sheer overlay to back
+    $('#cover').removeClass('coverItUp');
+  }
+
+  function makeErrorMsg(userMsg) {
+
+    $('#userMsg1').removeClass('hidden-xs-up');
+    document.activeElement.blur();
+
+    // Bring sheer overlay to front while displaying message
+    $('#cover').addClass('coverItUp');
+
+    // Append user message to userMsg1 div
+    $('#msg_gameover').empty().append(userMsg);
+
+    // TBD: Could add makeBoxes or other animation function here
+
+  }
+
+
+
+  /***********************************************************************************
+   * ANIMATION/MESSAGE FOR GAME WON: these functions called at end of game, to
+   * display msg and animation. This portion of code uses jQuery
    ***********************************************************************************/
 
   function handleUserMsg2() {
@@ -660,9 +649,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   /*
    * This function displays boxes on the screen of various sizes & colors.
    * 'span' indicates MS time that passes from one box to next and 'duration'
-   * is the # seconds (as string, i.e. '2s') that passes before all boxes are
-   * cleared from screen.  Note that 'duration' should exceed
-   * 'span' * 'boxCount' otherwise not all boxes will have time to display.
+   * is the # seconds (as string, i.e. '2s') for each animated box
    */
   function makeBoxes(boxCount, span, duration) {
     var animString = 'growSpin ' + duration + ' 1';
@@ -719,8 +706,6 @@ var timeString = "";  // string that shows mins:seconds for most recent game
       }
     }
   }
-
-
 
   startGame();
 })();
