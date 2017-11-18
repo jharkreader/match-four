@@ -628,7 +628,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
   }
 
   function makeBoxBackground(userMsg) {
-    var boxCount = 100;
+    var boxCount = 150;
 
     $('#userMsg2').removeClass('hidden-xs-up');
     document.activeElement.blur();
@@ -702,7 +702,7 @@ var timeString = "";  // string that shows mins:seconds for most recent game
         $('.box').fadeOut('slow', function() {
             $('#boxContainer').empty();
             window.clearInterval(boxTimer);
-        });},3000);
+        });},5000);
       }
     }
   }
